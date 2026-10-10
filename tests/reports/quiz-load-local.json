@@ -1,0 +1,32 @@
+{
+  "measuredAt": "2026-10-10T06:32:55.850Z",
+  "environment": "Local Next.js development server at 127.0.0.1:3100, single-process PGlite. HTTP curl clients orchestrated concurrently by the coding tool. No browser was launched.",
+  "scope": "50 synthetic authenticated learners in one organization, one 120-second question, host ended the room after all answers. This is a local concurrency smoke test, not a production capacity benchmark.",
+  "players": 50,
+  "loginSuccess": 50,
+  "joinSuccess": 50,
+  "concurrentAnswers": {
+    "attempted": 50,
+    "accepted": 50,
+    "batchMs": 518,
+    "p50Ms": 362,
+    "p95Ms": 511,
+    "maxMs": 517
+  },
+  "checks": {
+    "duplicate": 409,
+    "reconnectAnswered": true,
+    "stop": 200,
+    "late": 409,
+    "finalStandingsCount": 50,
+    "totalCorrect": 50,
+    "allScoresBounded": true,
+    "crossOrganizationJoinDenied": true,
+    "answersAndSecretHidden": true
+  },
+  "limitations": [
+    "One question and one cohort; repeated soak tests and hosted PostgreSQL load tests remain required.",
+    "Polling transport, not push transport. Network delay affects speed points.",
+    "Browser rendering and accessibility review are assigned to the user."
+  ]
+}

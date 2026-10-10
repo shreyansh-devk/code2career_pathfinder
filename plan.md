@@ -419,3 +419,12 @@ The next implementation task starts with R0: reconcile event timing if necessary
 During implementation, update `progress.md` after each meaningful verified checkpoint. Update `issues-changes.md` when a blocker, scope change, architecture choice, failed check or new assumption appears. Update `constraints.md` only with a source or an explicit product/engineering decision. Required README sections remain separate future deliverables; these planning files do not satisfy the README submission requirement by themselves.
 
 No implementation, integration provisioning, tests of application behavior, commit, push, deployment, submission, or enterprise certification is claimed by this plan.
+
+
+## Implementation checkpoint, 10 October 2026
+
+The first local application is now implemented. Refer to `progress.md` for measured acceptance and `README.md` for setup; this plan remains the full R0–R8 horizon. The provided CodeCraft credentials replaced the initial Gateway-only assumption: user-named `ANTHROPIC_*` variables are routed through the documented OpenAI-compatible chat adapter after the Anthropic endpoint returned 404. Authentication and persistence are functional with explicitly development-only accounts/PGlite; production code paths require separately provisioned Clerk and hosted PostgreSQL.
+
+The local quiz implementation uses database-clock derived phases and polling rather than a process-local scheduler or unverified WebSocket infrastructure. A 50-player local concurrency test passed. Production multi-instance/restart/fairness acceptance remains required. Discussion practice supports real AI personas and exact-transcript coaching with optional browser speech. It is not yet the fully verified spoken arena described by R6. The user owns browser testing and the agent will not launch a browser.
+
+All new modules preserve saved roadmap read/edit/review flows. Flags stop new work without deleting existing work. Additive schema, immutable room copies/revisions and conflict checks provide an incremental foundation; a stable live release still requires isolated preview verification and an authorized deployment. R7/R8 institutional/operational features remain explicit work, not implied by having three dashboards.

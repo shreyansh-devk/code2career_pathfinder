@@ -4,26 +4,31 @@ Last updated: 10 October 2026. Primary brief: Statement 1. Product plan: [plan.m
 
 ## Current verified state
 
-The source document has been read and the four requested planning/tracking files have been created. Application implementation has not started in this task. No application flow has been run, no integrations have been provisioned, and no application release or deployment is claimed.
+The application is implemented locally across all three surfaces. Backend flows have been exercised against a real running Next.js server and persistent local PostgreSQL/PGlite. The user explicitly owns browser testing. Production resources, deployment and enterprise operating readiness are not verified.
 
 | Item | State | Evidence or limitation |
 | --- | --- | --- |
-| Source document analysis | Verified | DOCX XML extracted, all nonempty main paragraphs read, table included; headers/footer/comments/revisions checked; embedded image inspected and identified as logo |
-| Statement 1 priority and imported preparation scope | Documented | `plan.md` sections 1, 3, 4 and 5 |
-| Three surfaces and permissions | Documented | `plan.md` section 2 |
-| Incremental releases and enterprise horizon | Documented | R0–R8 in `plan.md` section 9 |
-| Organizer constraints and timing uncertainties | Documented | `constraints.md`; date conflict recorded as ISS-001 |
-| Planning file structural validation | Verified | Local check exited 0: all four files, local links, table columns, fences, release/feature IDs, source hashes, paragraph bounds and status honesty passed |
-| Vercel CLI version | Verified | `vercel --version` returned `58.4.0` |
-| Marketplace discovery | Failed | `vercel integration categories` exited 1; cache permission errors and `fetch failed`; see ISS-003 |
-| Credentials and provider resources | Not verified | No values inspected or copied; no integration provisioned |
-| Repository/event eligibility | Not verified | No repository history audit performed in this planning task |
-| Planning repository publication | Blocked | User authorized `shreyansh-devk/code2career_pathfinder`; `git init -b main` failed because `.git` writes are denied; GitHub network access and in-app browser unavailable; no commit/upload created |
-| Application build, tests and end-to-end behavior | Not run | This request produced planning files only |
-| Latest verified application release | None recorded | No commit, release tag or application test evidence |
-| Live URL | None recorded | No deployment performed |
+| Source document and requested plan | Verified | Source XML/image inspected; four planning/tracking files created and checked |
+| Published planning files | Verified | `main` and remote planning commit `b81b4f6eadfacea3ae40d4c3507a36ba8ccf2476`; origin is the requested repository |
+| Application code | Implemented locally | Next.js/React/TypeScript, role-protected learner/organization/operator surfaces; saved in local application commit `9977321`, not pushed or deployed |
+| Local identity and database | Verified locally | Seeded development accounts, actual authenticated HTTP requests, persistent PGlite data retained across server restarts |
+| Real AI roadmap | Verified locally | CodeCraft `claude-opus-4.8` returned and saved 16 payment-engineering milestones and 15 accessible-finance UX-research milestones (11 skills, 2 projects, 2 roles), each with intermediate and target roles |
+| Real milestone guidance | Verified locally | Actual provider response: project, actions, acceptance criteria, assessment questions and clearly labeled resource searches |
+| Access controls and roadmap conflict handling | Verified locally | Anonymous 401; another learner/operator private reads 404; learner admin 403; locked completion 400; simultaneous writes 200/409 |
+| Teacher review and assignments | Verified locally | Correct teacher review/assignment saved and visible to learner; another organization denied; assignment ownership enforced |
+| Restore, constraints and sharing | Verified locally | New revision changes weekly hours; restore preserves matching known mark; public snapshot excludes intake/profile/progress/evidence; revocation returns 404 |
+| Solo diagnostic and notebook | Backend verified locally | Hidden answers before submit, 5/6 correct result, replay returns original grade/time; missing questions saved for revision |
+| Staff access revocation and feature controls | Verified locally | Removing teacher membership denies reads immediately; pausing new quiz rooms returns 503 while existing room remains readable |
+| Classroom quizzes | Backend verified locally | Authored table payload, immutable room copy, automatic deadline/finish, shuffled opaque option IDs, hidden answers, final report and organization league |
+| 50-player concurrency | Verified locally | 50 logins, joins and concurrent accepted answers; duplicates/late 409; reconnect retains answer; 50 final standings. See `tests/reports/quiz-load-local.json` |
+| AI discussion and transcript | Backend verified locally | Real 3-person AI panel plus moderator, 4 feedback criteria with 9 exact validated learner quotes, 3 next actions; saved contributions survive failure; cross-owner 404; pause/resume and stale-response cancellation verified (409, no late AI turns saved) |
+| Browser/speech/mobile/accessibility | User-owned, pending | Browser automation was denied earlier; no browser is launched following the user's instruction. No browser/speech pass claimed |
+| Code checks | Verified locally | `npm run check`, `npm test` (17 passed), `npm run build` passed; production dependency audit reported 0 vulnerabilities |
+| Vercel tooling and integrations | Partially investigated | Temporary CLI 63.1.2 installed; marketplace discovery still failed. Global CLI observed at 58.4.0; upgrade recommended |
+| Managed production identity/database and live URL | Not provisioned | Clerk integration and hosted PostgreSQL adapter exist; no dedicated resources or deployment. `npm run start -- --port 3200` was denied with listen EPERM; production HTTP not verified. Production local-storage rejection passed its unit guard |
+| Competition eligibility and final PPT | Pending | Source freeze date conflict remains; no final submission/eligibility claim |
 
-Documentation progress is not application progress. There is no honest app-completion percentage yet. A checked item below means its stated evidence exists, not simply that code has been written.
+Checked backend evidence does not certify a browser flow or a hosted release. R0–R8 are acceptance gates for the full product plan, not a claim that every planned feature has shipped.
 
 ## Status convention
 
@@ -41,13 +46,13 @@ Use unchecked boxes until acceptance passes. Do not label a release complete fro
 
 | Release | Scope | State | Dependency | Accepted evidence |
 | --- | --- | --- | --- | --- |
-| R0 | Real integration and environment readiness | Planned | Accounts, credentials, budget and tooling | None |
-| R1 | Full Statement 1 core | Planned | R0 | None |
-| R2 | Roadmap personalization and depth | Planned | R1 | None |
-| R3 | Three functional surfaces | Planned | R1/R2 and tenant policies | None |
-| R4 | Solo preparation and evidence loop | Planned | R3 and reviewed content | None |
-| R5 | Full multiplayer AptiQuiz | Planned | R4 and durable room-runtime proof | None |
-| R6 | Full spoken GD Arena | Planned | R4 and verified speech services; scheduled after R5 | None |
+| R0 | Real integration and environment readiness | In progress | Managed login/database and preview environment | Local auth/database and real supplied AI verified |
+| R1 | Full Statement 1 core | Backend verified; UI pending | User browser review and hosted verification | Two distinct AI goals, real advice, persistence and ownership/conflict checks |
+| R2 | Roadmap personalization and depth | Partially implemented | Alternative-path/source depth and UI acceptance | Constraints, edit/revision/restore, share/revoke and exports |
+| R3 | Three functional surfaces | Backend verified subset | Organization-owner management/support lifecycle and hosted checks | Scoped reviews, assignments, operator controls, tenant denial and staff revocation |
+| R4 | Solo preparation and evidence loop | Backend verified subset | Role-specific interview depth and UI acceptance | Reviewed diagnostic, saved grading/replay, notebook and assignments |
+| R5 | Full multiplayer AptiQuiz | Backend verified locally | Hosted turnover, latency profiles and UI acceptance | 50-player local concurrency, timing, scoring, reconnect/duplicate/late tests |
+| R6 | Full spoken GD Arena | Text backend verified; speech pending | User microphone/voice tests, closing/timer depth and deployed latency | Real AI panel, exact-quote feedback, transcript persistence and failure recovery |
 | R7 | Advanced career and preparation features | Planned | Relevant R4–R6 modules | None |
 | R8 | Enterprise institutional pilot | Planned | R3–R7 plus operating controls | None |
 
@@ -73,7 +78,7 @@ All dependency references indicate implementation order, not completed work. R5 
 - [ ] Discover integrations successfully and record chosen resources without exposing secret values.
 - [ ] Provision authorized identity, database and AI resources; isolate development/test/live environments.
 - [ ] Exercise real login, scoped database read/write and one bounded AI call.
-- [ ] Define secret handling, ignored files, `.env.example`, setup and environment verification.
+- [x] Define secret handling, ignored files, `.env.example`, setup and environment verification for local development; production secrets/resources remain separate.
 - [ ] Confirm deployment feasibility before committing to R5/R6 transport and speech choices.
 
 ## R1 complete roadmap checklist
@@ -87,7 +92,7 @@ All dependency references indicate implementation order, not completed work. R5 
 - [ ] RD-09: basic progress saves and survives refresh and a new session.
 - [ ] Exercise two distinct exact-role inputs and inspect relevance, not just JSON validity.
 - [ ] Exercise malformed input, invalid graph, provider outage, retries and concurrent changes.
-- [ ] Exercise another user’s direct API request and verify denial.
+- [x] Exercise another user’s direct API request and verify denial.
 - [ ] Exercise keyboard navigation, control labels, contrast and mobile layout.
 - [ ] Record build and actual browser-flow evidence, then preserve the release revision.
 
@@ -127,10 +132,10 @@ All dependency references indicate implementation order, not completed work. R5 
 - [ ] AQ-01/AQ-02: reusable authoring sets, images/tables, host room, join code and lobby work.
 - [ ] AQ-03/AQ-04: authoritative timing, score rules and reveal sequencing work.
 - [ ] AQ-05/AQ-06: final report and organization/player period league standings work.
-- [ ] AQ-07: reconnect retains identity, accepted answers, score and current question.
-- [ ] AQ-08: shuffled options, no premature answer exposure, ignored late/duplicate/replayed answers.
+- [x] AQ-07: backend reconnect retains identity, accepted answers, score and current question; UI reconnect pending user review.
+- [x] AQ-08: backend shuffled options, no premature answer exposure and late/duplicate denial verified.
 - [ ] Fairness design is tested across latency profiles and its limits are explained in README.
-- [ ] AQ-09: the repository contains a runnable 50-player test script and actual local/candidate results.
+- [x] AQ-09: `scripts/load-quiz.mjs` is provided; actual local 50-player HTTP results were recorded by the tool orchestrator. The standalone script has not been run here.
 - [ ] Host disconnect, referee restart, cross-instance events and deployment turnover are exercised.
 - [ ] AQ-10: scoped faculty reporting/export and sanitized spectator flow work.
 - [ ] All enabled room features and the roadmap core pass before enabling the module.
@@ -192,8 +197,27 @@ Do not paste environment values, private student data or credentials into eviden
 | VER-004 | 2026-10-10 | `vercel integration categories` | Failed; exited 1, restricted cache write and integration fetch failure |
 | VER-005 | 2026-10-10 | Official architecture references | Read relevant Next.js, React Flow, Clerk, Vercel and PostgreSQL docs; recommendations only; Neon guide fetch failed, catalog listing used instead |
 | VER-006 | 2026-10-10 | Four-file consistency checks | Passed; Python check exited 0, local links/table columns/fences valid, R0–R8 and all four feature catalogues complete, hashes/reference bounds match, application work remains unchecked |
-| VER-007 | 2026-10-10 | Requested GitHub publication | Blocked; Git status reported no repository, GitHub CLI connection failed, API escalation rejected, browser unavailable and Git initialization denied. See ISS-009 |
+| VER-007 | 2026-10-10 | Initial requested GitHub publication | Failed in the restricted environment; historical evidence in CHG-002. Later user-published planning commit verified, see VER-008 |
+| VER-008 | 2026-10-10 | Planning repository confirmation | Local main, origin and remote main matched `b81b4f6eadfacea3ae40d4c3507a36ba8ccf2476` |
+| VER-009 | 2026-10-10 | Local actual HTTP core/security workflows | Ownership/role/tenant denial, optimistic 200/409 conflict, review/assignment, share revoke, grading replay and staff revocation passed |
+| VER-010 | 2026-10-10 | Real AI workflows | Distinct payment engineering and accessible-finance UX research roadmaps, milestone guidance, 3 AI personas plus moderator, 4 feedback criteria and 9 exact quotes validated |
+| VER-011 | 2026-10-10 | 50-player actual HTTP concurrency | 50/50 accepted; 518 ms batch, p50 362 ms, p95 511 ms; duplicate/late 409; 50 final standings. Local environment only |
+| VER-012 | 2026-10-10 | Local checks | Typecheck/build passed; 17 unit tests passed; production dependency audit 0 known vulnerabilities |
+| VER-014 | 2026-10-10 | Advice deduplication and cache | Concurrent uncached request returned 409; exactly one AI quota slot consumed; generated result saved and cached advice remains readable with AI paused |
+| VER-015 | 2026-10-10 | Cancellation with five configured personas | In-flight round cancelled with version increment; late validated response returned 409; only learner contribution retained |
+| VER-013 | 2026-10-10 | Browser/speech acceptance | Pending user review; prior automation failed with EPERM. No browser launched after user instruction |
+
+## Local handoff
+
+Normal development server: **http://127.0.0.1:3000**. Local seed accounts are prepared in `.data/postgres`, with no fake roadmap output. Supplied AI configuration is present server-side, and the normal learner account begins with an unused default 10-request allowance. Isolated verification data remains in ignored `.data/e2e`; temporary test environment overrides and provider header files were removed.
+
+A burst of repeated development rebuilds was observed in the older test-server logs. It was not reproduced after the clean normal restart with actual HTTP page reads, API reads and a profile write. File checks showed the write changed only PostgreSQL WAL, not generated route types. No unverified watcher fix was applied; browser HMR behavior remains part of the user-owned acceptance review.
 
 ## Next executable step
 
-Start R0 when implementation is requested. Resolve ISS-001 for any competition eligibility claim and ISS-002/ISS-003 for real service setup. Then deliver R1 before adding preparation. Until then, keep every application release in Planned state.
+The local app is ready for the user's browser review. Provision and verify dedicated managed identity/PostgreSQL before a production release. Resolve the original date conflict before claiming competition eligibility. Preserve the current tested local work; publish/deploy only after explicit approval for that outward action.
+
+
+## Durable application checkpoint
+
+Application code checkpoint: **`9977321`**, `feat: build career planning and preparation workspaces`. Source, lockfile, tests, measured load report and current documentation were committed locally after backend verification, successful build/typecheck and 17 passing tests. The secret scan found no private environment/data paths staged and no supplied token in the staged diff or client bundles. No application push or deployment occurred. A following documentation-only commit records this checkpoint; the code SHA remains the reference for this acceptance evidence.

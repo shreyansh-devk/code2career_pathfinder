@@ -1,0 +1,11 @@
+'use client';
+import {useEffect,useState} from 'react';
+import {UserButton} from '@clerk/nextjs';
+import {api} from '@/lib/client';
+import {Feedback,Loading,PageHeading} from './workspace';
+type SettingsData={user:{name:string;role:string};local:boolean;aiQuota:{used:number;limit:number;resetsAt:string|null}};
+export function Settings(){
+  const [data,setData]=useState<SettingsData|null>(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[message,setMessage]=useState('');
+  useEffect(()=>{void api<SettingsData>('me').then(setData).catch(e=>setError(e.message));},[]);
+  return <><PageHeading title="Account settings" description="Keep your profile minimal. You choose the name displayed in your workspace."/><Feedback error={error}/>{!data?!error&&<Loading/>:<section className="settings-panel"><form className="stack" onSubmit={async event=>{event.preventDefault();const f=new FormData(event.currentTarget);setBusy(true);setError('');try{await api('profile',{name:f.get('name')});setMessage('Display name saved. Reload the workspace to update the account label.');}catch(e){setError((e as Error).message);}finally{setBusy(false);}}}><label>Display name<input name="name" required minLength={2} maxLength={80} defaultValue={data.user.name}/></label><p className="muted">Account role: {data.user.role}. Staff permissions are assigned by a platform operator.</p><button className="primary" disabled={busy}>Save display name</button></form>{message&&<p role="status" className="success">{message}</p>}<div className="spaced"><h2>AI request allowance</h2><p>{data.aiQuota.used} of {data.aiQuota.limit} requests used in the current 24-hour window.</p><p className="muted">Generation attempts, including failures, count toward this allowance. Cached guidance and feedback do not consume a new request. {data.aiQuota.resetsAt?`Window resets ${new Date(data.aiQuota.resetsAt).toLocaleString()}.`:"Your window starts with your first AI request."}</p></div><div className="spaced">{data.local?<button onClick={async()=>{try{await api('auth/logout',{});window.location.assign('/sign-in');}catch(e){setError((e as Error).message);}}}>Sign out of this device</button>:<UserButton/>}</div></section>}</>;
+}
