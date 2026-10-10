@@ -30,6 +30,8 @@ The local demo uses password-protected development accounts instead of requiring
 
 Implementation references: [Identity and role checks](src/lib/auth.ts), [session-aware request handling](src/proxy.ts), [ownership and organization services](src/lib/store.ts) and [production-mode guard test](tests/production.test.ts).
 
+`PLATFORM_ADMIN_IDS` is the continuing hosted admin allowlist. To revoke an admin, remove their Clerk user ID from that server setting and redeploy; their next authenticated request synchronizes the stored role to learner and denies admin access. Existing teacher/owner roles are preserved when they are not admins. Local seeded roles are separate development-only identities.
+
 ### Evaluation accounts
 
 | Surface | Hosted sign-in email | Access |

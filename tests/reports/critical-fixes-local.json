@@ -1,0 +1,75 @@
+{
+  "date": "2026-10-10",
+  "scope": "Critical correctness/security fixes; local candidate, unpublished",
+  "runtime": {
+    "observedNode": "26.5.0",
+    "declaredNode": "24.x",
+    "node24HostedAcceptance": "not rerun"
+  },
+  "checks": {
+    "typecheck": "passed",
+    "unitTests": {
+      "passed": 43,
+      "failed": 0
+    },
+    "isolatedBuild": "passed",
+    "serviceRegressions": [
+      "Restore retains deliberately removed and current marks",
+      "Managed admin allowlist revokes privileges",
+      "Graph-domain errors return 400; unexpected errors are redacted",
+      "Rejected/rolled-back discussion admission preserves quota",
+      "Classroom creation rolls back on required audit failure",
+      "Client handles JSON/HTML/empty/network errors and cancellation"
+    ],
+    "directHttp": {
+      "manualCreate": 201,
+      "mark": 200,
+      "clear": 200,
+      "restore": 200,
+      "restoredMarks": {},
+      "invalidGraphEdit": 400,
+      "savedVersionUnchanged": 4,
+      "foreignDiscussionTurn": 404,
+      "staleDiscussionTurn": 409,
+      "pausedDiscussionTurn": 409,
+      "aiQuotaBefore": 0,
+      "aiQuotaAfter": 0,
+      "verificationLogout": 200
+    }
+  },
+  "automatedHttpRunner": {
+    "passed": false,
+    "managedServerError": "listen EPERM 127.0.0.1:3100",
+    "existingServerError": "connect EPERM 127.0.0.1:3100",
+    "casesBlockedAtLogin": 3
+  },
+  "noBrowserLaunched": true,
+  "noRealProviderCalls": true,
+  "noProductionChanges": true,
+  "normalLearnerDataTouched": false,
+  "verifiedCodeSha256": {
+    "src/lib/auth.ts": "f6bfaea0dfb335f0e3252f8cb4590c41a8e15b532164b2d092462d00b8d8acdb",
+    "src/lib/store.ts": "7170accf3f4b3e8b0d62118650b674293813dcc64056f728827ac493c3aa276a",
+    "src/lib/ai.ts": "d62e2028182892149c42bf46e5dece716485fe83d02bc4298bb9de38a2156743",
+    "src/lib/discussion.ts": "855df080028276077fc49be6977de3da29f6a25110e9be38dbc23be79c9532a7",
+    "src/lib/domain.ts": "edfc944d8d392946949228d5c5a8c0fcb96db06bb1f0cda934cb410916b85f64",
+    "src/lib/http.ts": "3f1ad40e0a4930c0aac15c0862f769cea7f3abcb29e52460dc168a94d65429d9",
+    "src/lib/client.ts": "4f369b48a92ba3b9cc3b180f23687a25150eb1ab080aa0333867b60efdcab33e",
+    "src/lib/quiz.ts": "f430c38351d351c58e36858a0c0ba384f236f75e2b2d47ec0d6fbbcc81596399",
+    "src/app/api/[...path]/route.ts": "e49ff54a80427db6ae12eaa741d7e8cdb2652bb22d58af8d721d659a1443e68f",
+    "playwright.config.ts": "f3205a833cefea791c9126798b032fd8f5bf8e9ba34fa8a94e07c88c836af60c",
+    "tests/client.test.ts": "572105e6647e214442f02d8cf1e9da14a96d85c1ba5345e3c45be277126e586b",
+    "tests/critical-fixes.test.ts": "7eccdf2848999e355a5dff91369bcc7464f99dd0d688a01ec899e83fd1560a4a",
+    "tests/api.spec.ts": "1f6d86531fc3295df13abf6e67c0579aa912f783023398ce6a9d4edf3fe0f0e1"
+  },
+  "pending": [
+    "Automated HTTP runner in an unrestricted environment",
+    "Hosted Node 24 deployment verification",
+    "Browser/mobile/speech acceptance",
+    "Formatting/lint and CI publication",
+    "Sharing concurrency and general request idempotency",
+    "Original diagnostic snapshot/clock consistency",
+    "Sustained classroom polling/load",
+    "AI factual-quality evaluation"
+  ]
+}

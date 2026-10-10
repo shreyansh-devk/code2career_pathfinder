@@ -29,40 +29,44 @@ export type Roadmap = {
   version: number; origin: 'manual' | 'ai'; created_at: string; updated_at: string;
 };
 
+export class GraphValidationError extends Error {
+  constructor(message: string) { super(message); this.name='GraphValidationError'; }
+}
+
 export function validateGraph(input: unknown): Graph {
   const graph = graphSchema.parse(input);
   const ids = new Set(graph.milestones.map(n => n.id));
-  if (ids.size !== graph.milestones.length) throw new Error('Milestone IDs must be unique.');
+  if (ids.size !== graph.milestones.length) throw new GraphValidationError('Milestone IDs must be unique.');
   const skills = new Set(graph.milestones.map(n => n.skillId));
-  if (skills.size !== graph.milestones.length) throw new Error('Skill identifiers must be unique.');
+  if (skills.size !== graph.milestones.length) throw new GraphValidationError('Skill identifiers must be unique.');
   const nodes = new Map(graph.milestones.map(n => [n.id, n]));
   for (const node of graph.milestones) {
-    if (new Set(node.prerequisites).size !== node.prerequisites.length) throw new Error('Duplicate prerequisite.');
+    if (new Set(node.prerequisites).size !== node.prerequisites.length) throw new GraphValidationError('Duplicate prerequisite.');
     for (const id of node.prerequisites) {
-      if (!ids.has(id)) throw new Error('A prerequisite refers to a missing milestone.');
-      if (nodes.get(id)!.phase > node.phase) throw new Error('Prerequisites cannot be in a later phase.');
+      if (!ids.has(id)) throw new GraphValidationError('A prerequisite refers to a missing milestone.');
+      if (nodes.get(id)!.phase > node.phase) throw new GraphValidationError('Prerequisites cannot be in a later phase.');
     }
   }
   const visited = new Set<string>(), active = new Set<string>();
   function visit(id: string) {
-    if (active.has(id)) throw new Error('The roadmap contains a dependency cycle.');
+    if (active.has(id)) throw new GraphValidationError('The roadmap contains a dependency cycle.');
     if (visited.has(id)) return;
     active.add(id); nodes.get(id)!.prerequisites.forEach(visit);
     active.delete(id); visited.add(id);
   }
   graph.milestones.forEach(n => visit(n.id));
-  if (!graph.milestones.some(n => n.kind === 'role')) throw new Error('Include at least one target or intermediate role.');
+  if (!graph.milestones.some(n => n.kind === 'role')) throw new GraphValidationError('Include at least one target or intermediate role.');
   // Every milestone must contribute to a role; disconnected filler is rejected.
   const useful = new Set<string>();
   function collect(id: string) { if (useful.has(id)) return; useful.add(id); nodes.get(id)!.prerequisites.forEach(collect); }
   graph.milestones.filter(n => n.kind === 'role').forEach(n => collect(n.id));
-  if (useful.size !== ids.size) throw new Error('Every milestone must lead to a role.');
+  if (useful.size !== ids.size) throw new GraphValidationError('Every milestone must lead to a role.');
   return graph;
 }
 
 export function validateCareerGraph(input:unknown):Graph {
   const graph=validateGraph(input);
-  if(graph.milestones.length<8||!graph.milestones.some(n=>n.kind==='skill')||!graph.milestones.some(n=>n.kind==='project')||graph.milestones.filter(n=>n.kind==='role').length<2)throw new Error('An AI career plan must include skills, concrete projects, an intermediate role and the target role.');
+  if(graph.milestones.length<8||!graph.milestones.some(n=>n.kind==='skill')||!graph.milestones.some(n=>n.kind==='project')||graph.milestones.filter(n=>n.kind==='role').length<2)throw new GraphValidationError('An AI career plan must include skills, concrete projects, an intermediate role and the target role.');
   return graph;
 }
 

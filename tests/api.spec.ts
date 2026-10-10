@@ -39,3 +39,37 @@ test('real HTTP flow persists progress, review, assignments and scoring with acc
     const resumed=await signIn('learner');expect((await (await resumed.get(`/api/roadmaps/${id}`)).json()).roadmap.version).toBe(4);await resumed.dispose();
   } finally {await post(admin,'admin/flag',{key:'solo_practice',enabled:true});await Promise.all([learner,teacher,other,otherTeacher,admin,anonymous].map(client=>client.dispose()));}
 });
+
+test('restore retains cleared progress and graph errors return 400 without changing saved work',async()=>{
+  const learner=await signIn('learner');
+  try {
+    const intake={goal:'Restore regression: backend engineer',hoursPerWeek:6,targetMonths:6,budget:'free'};
+    const created=await post(learner,'roadmaps',{mode:'manual',intake,firstTitle:'HTTP foundations',firstHours:8});
+    expect(created.status()).toBe(201);const id=(await created.json()).roadmap.id;
+    expect((await post(learner,`roadmaps/${id}/mark`,{version:1,milestoneId:'first-skill',mark:'known'})).status()).toBe(200);
+    expect((await post(learner,`roadmaps/${id}/mark`,{version:2,milestoneId:'first-skill',mark:null})).status()).toBe(200);
+    const restored=await post(learner,`roadmaps/${id}/restore`,{version:3,restoreVersion:2});
+    expect(restored.status()).toBe(200);expect((await restored.json()).roadmap.marks).toEqual({});
+    const invalid=await post(learner,`roadmaps/${id}/milestone`,{version:4,title:'Invalid prerequisite',description:'A missing dependency must be a client error.',hours:8,kind:'skill',phase:1,prerequisites:['missing']});
+    expect(invalid.status()).toBe(400);expect((await invalid.json()).error).toContain('missing milestone');
+    const saved=(await (await learner.get(`/api/roadmaps/${id}`)).json()).roadmap;
+    expect(saved.version).toBe(4);expect(saved.marks).toEqual({});
+  } finally { await learner.dispose(); }
+});
+
+test('foreign, stale and paused discussion requests are rejected before AI preparation',async()=>{
+  const learner=await signIn('learner'),other=await signIn('learner-two');
+  try {
+    const before=await (await learner.get('/api/me')).json();
+    const created=await post(learner,'discussions',{topic:'How should a team measure API reliability?',participantCount:3});
+    expect(created.status()).toBe(200);const session=await created.json();
+    const turn={version:session.version,text:'Measure response latency and error rates together.'};
+    expect((await post(other,`discussions/${session.id}/turn`,turn)).status()).toBe(404);
+    expect((await post(learner,`discussions/${session.id}/turn`,{...turn,version:99})).status()).toBe(409);
+    const paused=await post(learner,`discussions/${session.id}/control`,{version:session.version,action:'pause'});
+    expect(paused.status()).toBe(200);
+    expect((await post(learner,`discussions/${session.id}/turn`,{...turn,version:(await paused.json()).version})).status()).toBe(409);
+    const after=await (await learner.get('/api/me')).json();
+    expect(after.aiQuota.used).toBe(before.aiQuota.used);
+  } finally { await Promise.all([learner.dispose(),other.dispose()]); }
+});

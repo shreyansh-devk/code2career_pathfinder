@@ -1,20 +1,27 @@
 import { cookies } from 'next/headers';
 import { auth } from '@clerk/nextjs/server';
-import { getDb, localMode } from './db';
+import { getDb, localMode, type Sql } from './db';
 import { tokenHash } from './security';
 import { ApiError } from './http';
 
 export type User = { id: string; name: string; role: 'learner' | 'teacher' | 'owner' | 'admin' };
 export function clerkReady() { return Boolean(process.env.CLERK_SECRET_KEY && process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY); }
+export async function syncManagedUser(db: Sql, userId: string, adminIds: string): Promise<User> {
+  const isAdmin = adminIds.split(',').map(id => id.trim()).filter(Boolean).includes(userId);
+  // The server allowlist is the continuing authority, including revocation.
+  const { rows } = await db.query<User>(`INSERT INTO app_users(id,name,role) VALUES ($1,'Learner',$2)
+    ON CONFLICT(id) DO UPDATE SET role=CASE
+      WHEN EXCLUDED.role='admin' THEN 'admin'
+      WHEN app_users.role='admin' THEN 'learner'
+      ELSE app_users.role END
+    RETURNING id,name,role`, [userId,isAdmin ? 'admin' : 'learner']);
+  return rows[0];
+}
 export async function currentUser(): Promise<User | null> {
   if (clerkReady()) {
     const { userId } = await auth(); if (!userId) return null;
     const db = await getDb();
-    const isAdmin = (process.env.PLATFORM_ADMIN_IDS || '').split(',').map(v => v.trim()).filter(Boolean).includes(userId);
-    // Role inputs never come from a browser. Staff membership is assigned by an operator in the database.
-    await db.query('INSERT INTO app_users(id,name,role) VALUES ($1,$2,$3) ON CONFLICT(id) DO NOTHING', [userId, 'Learner', isAdmin ? 'admin' : 'learner']);
-    const { rows } = await db.query<User>('SELECT id,name,role FROM app_users WHERE id=$1', [userId]);
-    return rows[0] || null;
+    return syncManagedUser(db,userId,process.env.PLATFORM_ADMIN_IDS || '');
   }
   if (!localMode()) return null;
   const token = (await cookies()).get('pathfinder_session')?.value;

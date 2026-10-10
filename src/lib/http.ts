@@ -1,5 +1,6 @@
 import { ZodError } from 'zod';
 import { configuredOrigins } from './surfaces';
+import { GraphValidationError } from './domain';
 export class ApiError extends Error { constructor(public status: number, message: string) { super(message); } }
 export async function body(request: Request) {
   const length = Number(request.headers.get('content-length') || 0);
@@ -35,6 +36,7 @@ export function checkOrigin(request: Request) {
 export function json(data: unknown, status = 200) { return Response.json(data, { status, headers: { 'Cache-Control': 'no-store' } }); }
 export function failure(error: unknown) {
   if (error instanceof ApiError) return json({ error: error.message }, error.status);
+  if (error instanceof GraphValidationError) return json({ error:error.message }, 400);
   if (error instanceof ZodError) return json({ error: error.issues.map(i => `${i.path.join('.')}: ${i.message}`).slice(0,3).join(' ') }, 400);
   // Provider errors, database connection strings and request bodies must never reach clients or logs.
   return json({ error: 'The service could not complete this request. Your saved work is unchanged. Try again or check service configuration.' }, 503);

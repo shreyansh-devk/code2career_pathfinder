@@ -6,7 +6,7 @@ import { getDb, localMode } from '@/lib/db';
 import { ApiError, body, checkOrigin, failure, json } from '@/lib/http';
 import { checkPassword, sessionToken, tokenHash, hashPassword } from '@/lib/security';
 import { intakeSchema, manualGraph, milestoneSchema, type Roadmap } from '@/lib/domain';
-import { addEvidence, audit, canTeach, consumeQuota, createRoadmap, evidenceInput, flagEnabled, getEvidence, listRoadmaps, markMilestone, organizationOverview, ownedRoadmap, reviseRoadmap, type Assignment } from '@/lib/store';
+import { addEvidence, audit, canTeach, consumeQuota, createRoadmap, evidenceInput, flagEnabled, getEvidence, listRoadmaps, markMilestone, organizationOverview, ownedRoadmap, reviseRoadmap, restoreRoadmap, type Assignment } from '@/lib/store';
 import { aiReady, aiRequestLimit, generateAdvice, generateRoadmap } from '@/lib/ai';
 import { questions, scoreAnswers } from '@/lib/questions';
 import {quizGet,quizPost} from '@/lib/quiz';
@@ -140,9 +140,7 @@ export async function POST(request: Request, context: Context) {
       }
       if (action === 'restore') {
         const p = z.object({ version:versionSchema, restoreVersion:versionSchema }).parse(input);
-        const snapshot = (await db.query<{ snapshot:Roadmap }>('SELECT snapshot FROM revisions WHERE roadmap_id=$1 AND version=$2 AND EXISTS(SELECT 1 FROM roadmaps WHERE id=$1 AND owner_id=$3)',[id,p.restoreVersion,user.id])).rows[0]?.snapshot;
-        if (!snapshot) throw new ApiError(404,'Revision not found.');
-        return json({ roadmap:await reviseRoadmap(user,id,p.version,map => ({ graph:snapshot.graph,marks:Object.fromEntries(Object.entries({ ...snapshot.marks,...map.marks }).filter(([key]) => snapshot.graph.milestones.some(n => n.id===key))) })) });
+        return json({ roadmap:await restoreRoadmap(user,id,p.version,p.restoreVersion) });
       }
       if (action === 'constraints') {
         const p=z.object({ version:versionSchema,hoursPerWeek:z.number().int().min(1).max(60),targetMonths:z.number().int().min(1).max(36),budget:z.enum(['free','flexible']) }).parse(input);

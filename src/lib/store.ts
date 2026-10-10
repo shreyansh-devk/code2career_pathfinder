@@ -48,6 +48,17 @@ export async function markMilestone(user: User, id: string, version: number, mil
     return { graph: map.graph, marks };
   });
 }
+export async function restoreRoadmap(user: User, id: string, version: number, restoreVersion: number) {
+  const snapshot = (await (await getDb()).query<{ snapshot:Roadmap }>(
+    'SELECT snapshot FROM revisions WHERE roadmap_id=$1 AND version=$2 AND EXISTS(SELECT 1 FROM roadmaps WHERE id=$1 AND owner_id=$3)',
+    [id,restoreVersion,user.id])).rows[0]?.snapshot;
+  if (!snapshot) throw new ApiError(404,'Revision not found.');
+  return reviseRoadmap(user,id,version,map => ({
+    graph:snapshot.graph,
+    // Absence in current marks includes deliberate removals; never resurrect snapshot marks.
+    marks:Object.fromEntries(Object.entries(map.marks).filter(([key]) => snapshot.graph.milestones.some(n => n.id===key))),
+  }));
+}
 export async function getEvidence(user: User, roadmapId?: string) {
   if (roadmapId) await ownedRoadmap(user,roadmapId);
   return (await (await getDb()).query<Evidence>(`SELECT * FROM evidence WHERE learner_id=$1${roadmapId ? ' AND roadmap_id=$2' : ''} ORDER BY created_at DESC LIMIT 100`, roadmapId ? [user.id,roadmapId] : [user.id])).rows;
@@ -76,10 +87,10 @@ export async function organizationOverview(user: User) {
   const assignments = (await db.query<Assignment>(`SELECT a.* FROM assignments a JOIN memberships m ON m.user_id=a.learner_id WHERE m.organization_id=$1 AND ($2='owner' OR m.assigned_teacher_id=$3) ORDER BY a.created_at DESC LIMIT 100`, [org.id,user.role,user.id])).rows;
   return { organization: org, learners, evidence, assignments };
 }
-export async function consumeQuota(key: string, limit: number, seconds: number) {
-  const { rows } = await (await getDb()).query(`INSERT INTO quotas(key,count,resets_at) VALUES($1,1,NOW()+$3*INTERVAL '1 second') ON CONFLICT(key) DO UPDATE SET count=CASE WHEN quotas.resets_at<=NOW() THEN 1 ELSE quotas.count+1 END,resets_at=CASE WHEN quotas.resets_at<=NOW() THEN NOW()+$3*INTERVAL '1 second' ELSE quotas.resets_at END WHERE quotas.resets_at<=NOW() OR quotas.count<$2 RETURNING count`, [key,limit,seconds]);
+export async function consumeQuota(key: string, limit: number, seconds: number, tx?: Sql) {
+  const { rows } = await (tx || await getDb()).query(`INSERT INTO quotas(key,count,resets_at) VALUES($1,1,NOW()+$3*INTERVAL '1 second') ON CONFLICT(key) DO UPDATE SET count=CASE WHEN quotas.resets_at<=NOW() THEN 1 ELSE quotas.count+1 END,resets_at=CASE WHEN quotas.resets_at<=NOW() THEN NOW()+$3*INTERVAL '1 second' ELSE quotas.resets_at END WHERE quotas.resets_at<=NOW() OR quotas.count<$2 RETURNING count`, [key,limit,seconds]);
   if (!rows[0]) throw new ApiError(429,'Request limit reached. Try again after the current limit window.');
 }
-export async function flagEnabled(key: string) {
-  return (await (await getDb()).query<{ enabled: boolean }>('SELECT enabled FROM feature_flags WHERE key=$1',[key])).rows[0]?.enabled === true;
+export async function flagEnabled(key: string, tx?: Sql) {
+  return (await (tx || await getDb()).query<{ enabled: boolean }>('SELECT enabled FROM feature_flags WHERE key=$1',[key])).rows[0]?.enabled === true;
 }
