@@ -153,3 +153,7 @@ Fixed signed-in root and protected-page routing to choose the account's role, wi
 ### CHG-014 on 10 October 2026
 
 Added production AI diagnostics limited to error names/codes, HTTP status, finish label and output length. Known graph errors receive specific audit categories; prompts, provider payloads, credentials and raw error messages are excluded. New adversarial diagnostic tests passed, bringing the suite to 22 tests. Published/deployed `1228345` as READY and started a fresh authenticated hosted generation check. Actual failure/success is recorded in progress.md, not inferred from the deployment build.
+
+### CHG-015 on 10 October 2026
+
+The hosted failure was confirmed from redacted production diagnostics and audit as disconnected milestones, not invalid credentials. Tightened the dependency prompt and added one semantic graph repair, with no validation bypass, unchanged total timeout, quota charge and no further retries. New tests cover successful first output, repaired connectivity, second invalid output and quota denial. One initial test removed an independent role, which the existing validator permits; corrected the fixture to disconnect a project and all 25 tests passed. Published/deployed `2bd72b8`; live generation still requires actual HTTP verification.
