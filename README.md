@@ -58,6 +58,45 @@ A fresh clone with only `.env.example` has empty provider keys, so new AI genera
 
 Authenticated `/api/me` reports `aiReady` and `aiQuota`. `aiReady` confirms configuration is present, not that the provider is currently accepting requests. Real local AI roadmap/quiz generation and written feedback were exercised previously; see [progress and measured evidence](progress.md). Those checks do not guarantee current provider availability. Without a key, manual plans and repository-authored diagnostics remain available; the app does not substitute fake AI output.
 
+### Evaluator testing without an API key
+
+**API keys are intentionally absent from this public repository. A fresh clone cannot perform real model inference until a private provider key is configured.** Authentication, planning, persistence and the AI integration code can still be inspected and tested without that key. A missing-key response describes the running environment's configuration; it is not evidence that the feature's implementation is absent.
+
+| Evaluation path | Credentials required | What it can exercise |
+| --- | --- | --- |
+| **Fresh local clone, no provider key** | Seeded development login only | Three workspaces, manual roadmaps, progress/revisions, mentoring, built-in diagnostics, classroom questions and credential-free automated tests |
+| **Live deployed app** | Hosted application sign-in, supplied privately | The deployed server already holds provider configuration; the evaluator does not need an OpenRouter key. Saved work and new AI requests are subject to permissions, enabled features and remaining quotas. Fresh hosted admin login remains blocked by its recorded reset issue. |
+| **Fresh local clone with real AI** | Seeded development login plus a private provider key | The real generation/validation/persistence pipeline, including roadmaps, guidance, personal quizzes and written feedback, when the provider is available |
+
+For a fresh clone, use Node.js 24.x and run:
+
+```sh
+npm ci
+cp .env.example .env.local
+npm run check
+npm test
+npm run build
+npm run seed:dev
+npm run dev
+```
+
+Keep Clerk, PostgreSQL connection and all provider keys empty for this local no-key path. The example enables local development sign-in and PGlite. Use the three [local evaluation accounts](#evaluation-accounts) at `http://127.0.0.1:3300`. `npm run build` checks compilation; use `npm run dev` to exercise development accounts, since the production runtime requires managed identity and hosted PostgreSQL.
+
+The credential-free `npm test` suite includes OpenRouter request formatting and schema rejection with an injected test response, valid/invalid career graphs with bounded repair, quiz validation and grading evidence, stored-attempt behavior, access/ownership checks and the production-mode guard. Test responses are confined to tests. They do not replace the real provider in the application or establish live model quality/availability. Source references: [OpenRouter adapter tests](tests/openrouter.test.ts), [career generation tests](tests/career-generation.test.ts), [personal quiz service tests](tests/self-quizzes.test.ts) and [AI service](src/lib/ai.ts).
+
+For interactive no-key evaluation, create a **manual** roadmap as `learner`, mark a skill known, add a milestone, submit evidence and refresh to confirm persistence. As `teacher`, review that learner's evidence and assign work. As `admin`, inspect controls and the directory. Try the built-in six-question diagnostic separately from AI-generated personal quizzes. New generation should be unavailable without a provider key; authenticated roadmap/advice API requests return 503 with a configuration explanation, and existing saved work remains readable. Unauthorized API access returns 401, forbidden role access 403 and another learner's private roadmap 404. See [HTTP integration checks](tests/api.spec.ts) for concrete requests and assertions.
+
+The HTTP-only integration test below uses Playwright's request client and no browser. It starts an isolated local server on port 3100 with synthetic accounts and explicitly empty provider keys. It writes only local evaluation data and must not be pointed at production:
+
+```sh
+OPENROUTER_API_KEY= ANTHROPIC_AUTH_TOKEN= AI_GATEWAY_API_KEY= \
+  npm run test:e2e -- tests/api.spec.ts
+```
+
+This HTTP command is provided for evaluator/user execution; it was not rerun for this documentation update. Browser/mobile/speech acceptance remains pending and is separate from unit tests. An agent restricted to reading repository files can inspect source and recorded evidence, but cannot independently verify runtime behavior or new model output without execution/network capability.
+
+For real local AI evaluation, privately add `OPENROUTER_API_KEY` to `.env.local`, retain the supplied model setting, restart `npm run dev` and sign in as `learner`. Create an AI roadmap, reopen its saved graph, request one ready milestone's guidance, generate a five-question personal quiz and submit answers. Multiple-choice grading uses the saved key; written feedback requires another AI request. Check the authenticated `/api/me` quota before generation and keep calls bounded. Real provider results must pass application validation before being saved. Alternatively, use the live learner app: its server-side key stays private, and only the application's login is needed. Current provider availability and quota remain prerequisites, not guarantees from the recorded reports.
+
 ### When AI is rate limited
 
 There are two independent limits:
