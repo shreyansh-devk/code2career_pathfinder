@@ -30,6 +30,10 @@ The learner home includes upcoming milestones, progress and personal practice. O
 
 Learners can generate quizzes from a whole roadmap, a phase or a milestone, or choose quantitative, logical and verbal reasoning. Choose 5 or 10 questions, difficulty, multiple-choice or written answers, and optional timing. Drafts and attempts are saved; results include topic scores, explanations, rubric feedback, retakes, weak-topic practice and mistake-notebook notes. AI-generated material is disclosed and can be flagged. Quiz scores do not complete roadmap milestones or certify readiness.
 
+## Roadmap reading
+
+Use the View menu to read one phase with its prerequisites, or open the full roadmap. A line grid, compact branches, phase colours and larger milestone labels help track the arrows. Focus selected brings the current milestone closer; the milestone list and full SVG export remain available. Progress and dependency rules come from the saved roadmap.
+
 ## Why we exist
 
 Choosing a career does not tell a student which skills to learn first, what to build, or how to fit the work around college and other commitments. Courses, practice tools, and career advice often leave the learner to assemble that path themselves.

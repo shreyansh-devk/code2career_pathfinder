@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-10",
+  "commit": "82faf53",
+  "deployment": "dpl_14Gy2CMBoT7BHzvqMm3PnCMG3wmi",
+  "urls": [
+    "https://code2career-pathfinder.vercel.app",
+    "https://code2career-admin.vercel.app",
+    "https://code2career-organization.vercel.app"
+  ],
+  "build": "Vercel production build passed",
+  "migration": {
+    "tables": [
+      "self_quizzes",
+      "self_quiz_attempts",
+      "self_quiz_notes"
+    ],
+    "preservedRoadmaps": 6,
+    "flag": "personal_quizzes enabled"
+  },
+  "api": {
+    "me": 200,
+    "workspace": 200,
+    "selfQuizzes": 200,
+    "notebook": 200,
+    "attemptStart": 200,
+    "answerKeysHidden": true,
+    "draft": 200,
+    "submit": 200,
+    "score": "3/5, 60%, logical weak topic"
+  },
+  "verificationFixtureRemoved": true,
+  "aiQuotaConsumed": 0,
+  "notVerified": [
+    "new AI generation on this hosted release",
+    "browser visuals and interaction",
+    "GitHub Actions workflow, token lacks workflow scope",
+    "Vercel GitHub automatic builds, repository owner setup remains required"
+  ]
+}

@@ -184,3 +184,16 @@ Persisted the working development command in package.json and README without cha
 Added private roadmap/reasoning quiz generation, frozen keys/rubrics, timed/untimed versioned drafts, deterministic multiple-choice scoring, leased AI written feedback, saved topic analysis, retakes and weak-topic generation. Extended the notebook with mistakes, notes and flags. Added an operator pause control preserving saved reads/submission, milestone practice links and actual practice history. Reworked the home with purposeful green/violet/blue colour, a clear next task, ordered upcoming work and recorded progress.
 
 Final typecheck, 33 tests and build passed. Real generation passed in both modes; real written feedback awarded 10/25 points with exact learner quotes and zero for unanswered questions. Replay, ownership, stale draft, frozen quiz after roadmap edit and no automatic milestone completion checks passed. Server rendering and colour contrast passed. Temporary verification records were removed without changing other learner work. Evidence: `tests/reports/local-personal-practice.json`. Browser/mobile/keyboard review remains user-run. No browser, push or deployment occurred; the hosted release and its report remain unchanged.
+
+
+### CHG-021 on 10 October 2026, published personal practice
+
+Published `82faf53` and Vercel deployment `dpl_14Gy2CMBoT7BHzvqMm3PnCMG3wmi` on all three existing domains. Six additive hosted quiz statements succeeded after the compatible build was ready, preserving six roadmaps. Authenticated read/start/draft/submit checks passed, including hidden keys and 3/5 scoring. Temporary fixtures were removed and AI quota was unchanged. Hosted AI generation on this particular release and browser acceptance were not re-run. See `tests/reports/production-personal-practice.json`.
+
+The GitHub token lacks workflow scope, so CI workflow publication was rejected and omitted from the successful application push. It remains local. CLI environment download/promotion failed to authenticate; official authenticated Vercel REST requests completed environment access and promotion. Two dedicated verification-session tokens accidentally appeared in diagnostic output; both sessions were revoked with status confirmed. No user browser sessions were revoked.
+
+### CHG-022 on 10 October 2026, local roadmap reading
+
+Added phase views with direct prerequisite context, the full-map option, a focus control, warmer line grid, larger titles, explicit state labels and phase colours. Compact dependency layout centers merges and orders branches by their parents. Adaptive canvas height reduces empty area; SVG export shares the geometry and safe wrapped labels. Saved graphs, revisions, marks, schedules and prerequisite rules remain intact.
+
+Typecheck, 37 tests, build and authenticated local saved-roadmap/workspace reads passed. The actual 13-node plan's first phase is 528 pixels wide compared with the full map's 2,232 pixels; the prior full layout was 2,500. Non-overlap checks also pass for 80 nodes and every phase. Browser controls, keyboard/mobile appearance and publication remain pending. Evidence: `tests/reports/local-roadmap-reading.json`.

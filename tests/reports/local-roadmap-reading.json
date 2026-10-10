@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-10",
+  "published": false,
+  "source": "Existing authenticated local saved roadmap",
+  "milestones": 13,
+  "fullWidth": 2232,
+  "previousFullWidth": 2500,
+  "phases": [
+    {
+      "phase": 1,
+      "milestones": 2,
+      "prerequisites": 0,
+      "width": 528
+    },
+    {
+      "phase": 2,
+      "milestones": 2,
+      "prerequisites": 2,
+      "width": 812
+    },
+    {
+      "phase": 3,
+      "milestones": 2,
+      "prerequisites": 2,
+      "width": 812
+    },
+    {
+      "phase": 4,
+      "milestones": 2,
+      "prerequisites": 3,
+      "width": 1096
+    },
+    {
+      "phase": 5,
+      "milestones": 1,
+      "prerequisites": 2,
+      "width": 528
+    },
+    {
+      "phase": 6,
+      "milestones": 2,
+      "prerequisites": 7,
+      "width": 1380
+    },
+    {
+      "phase": 7,
+      "milestones": 1,
+      "prerequisites": 3,
+      "width": 812
+    },
+    {
+      "phase": 8,
+      "milestones": 1,
+      "prerequisites": 6,
+      "width": 1380
+    }
+  ],
+  "checks": {
+    "typecheck": "passed",
+    "tests": "37 passed, 0 failed",
+    "build": "passed",
+    "authenticatedRoadmapPage": 200,
+    "authenticatedWorkspace": 200,
+    "savedDataUnchanged": true,
+    "svgExport": "passed, gridded and escaped"
+  },
+  "notVerified": [
+    "browser rendering, phase switching, zoom, keyboard and mobile interactions"
+  ]
+}
