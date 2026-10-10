@@ -20,6 +20,8 @@
 | **Teacher / organization** | [code2career-organization.vercel.app/org](https://code2career-organization.vercel.app/org) |
 | **Platform operator** | [code2career-admin.vercel.app/admin](https://code2career-admin.vercel.app/admin) |
 
+Critical fixes were published from source commit `de613a5` on 10 October 2026. The hosted production build passed, all three domains resolve to the READY deployment, sign-in pages returned 200 and private APIs rejected unsigned requests with 401. These checks do not establish fresh authenticated/browser acceptance or current AI availability. See [production release evidence](tests/reports/production-critical-fixes.json).
+
 New sign-ups default to learners. Teacher access requires operator assignment.
 
 ### Authentication is implemented

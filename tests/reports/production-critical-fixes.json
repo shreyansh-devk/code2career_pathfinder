@@ -1,0 +1,63 @@
+{
+  "checkedAt": "2026-10-10T13:20:26Z",
+  "sourceCommit": "de613a5a8403a3d3a3ac29d9fc81898010061d42",
+  "githubMainVerified": "de613a5a8403a3d3a3ac29d9fc81898010061d42",
+  "deployment": {
+    "id": "dpl_7tuB2zekuecqVAkjKuGVk1uJoaiY",
+    "target": "production",
+    "readyState": "READY",
+    "url": "https://code2career-pathfinder-74dg090ql-yash-gadias-projects.vercel.app",
+    "project": "code2career-pathfinder",
+    "projectNodeVersion": "24.x",
+    "hostedBuild": "passed",
+    "buildOutputSeconds": 21
+  },
+  "surfaces": [
+    {
+      "name": "learner",
+      "url": "https://code2career-pathfinder.vercel.app/app",
+      "deploymentId": "dpl_7tuB2zekuecqVAkjKuGVk1uJoaiY",
+      "workspaceWithoutSession": 307,
+      "signIn": 200,
+      "privateApiWithoutSession": 401,
+      "privateApiMessage": "Sign in to continue."
+    },
+    {
+      "name": "admin",
+      "url": "https://code2career-admin.vercel.app/admin",
+      "deploymentId": "dpl_7tuB2zekuecqVAkjKuGVk1uJoaiY",
+      "workspaceWithoutSession": 307,
+      "signIn": 200,
+      "privateApiWithoutSession": 401,
+      "privateApiMessage": "Sign in to continue."
+    },
+    {
+      "name": "organization",
+      "url": "https://code2career-organization.vercel.app/org",
+      "deploymentId": "dpl_7tuB2zekuecqVAkjKuGVk1uJoaiY",
+      "workspaceWithoutSession": 307,
+      "signIn": 200,
+      "privateApiWithoutSession": 401,
+      "privateApiMessage": "Sign in to continue."
+    }
+  ],
+  "localEvidence": "tests/reports/critical-fixes-local.json",
+  "localChecks": {
+    "typecheck": "passed",
+    "unitTestsPassed": 43,
+    "isolatedBuild": "passed",
+    "directHttpRegressions": "passed"
+  },
+  "runtimeErrorScan": "Unverified: CLI completed without usable log results and emitted a compatibility warning; no clean error-scan claim.",
+  "noBrowserLaunched": true,
+  "noNewProviderInference": true,
+  "noSchemaOrProviderSettingChange": true,
+  "pending": [
+    "Fresh hosted admin password reset",
+    "Authenticated/browser/mobile acceptance of this deployment",
+    "Fresh provider availability and factual AI evaluation",
+    "Automated HTTP suite in an unrestricted environment",
+    "Broader readability, sharing concurrency and sustained load checks",
+    "Repository-owner Vercel GitHub App access remains a separate automation setup item"
+  ]
+}
