@@ -5,13 +5,15 @@ import { ApiError } from './http';
 import { consumeQuota, flagEnabled, audit } from './store';
 import { getDb } from './db';
 import {randomUUID} from 'node:crypto';
+import { openRouterModel } from './openrouter';
 
-export function aiReady() { return Boolean(process.env.ANTHROPIC_AUTH_TOKEN && process.env.ANTHROPIC_BASE_URL && process.env.ANTHROPIC_MODEL || process.env.AI_GATEWAY_API_KEY && process.env.AI_MODEL); }
+export function aiReady() { return Boolean(process.env.OPENROUTER_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN && process.env.ANTHROPIC_BASE_URL && process.env.ANTHROPIC_MODEL || process.env.AI_GATEWAY_API_KEY && process.env.AI_MODEL); }
 export function aiRequestLimit(){const raw=Number(process.env.AI_DAILY_LIMIT||10);return Number.isFinite(raw)?Math.max(1,Math.min(30,Math.floor(raw))):10;}
 export async function prepareAi(userId: string) {
   if (!aiReady()) throw new ApiError(503, 'AI generation is unavailable until an API key and model are configured. Your saved plans remain usable.');
   if (!await flagEnabled('roadmap_generation')) throw new ApiError(503,'AI generation is temporarily paused by the platform operator.');
   await consumeQuota(`ai:${userId}`,aiRequestLimit(),86400);
+  if (process.env.OPENROUTER_API_KEY) return openRouterModel(process.env.OPENROUTER_API_KEY,process.env.OPENROUTER_MODEL || undefined);
   if(process.env.ANTHROPIC_AUTH_TOKEN && process.env.ANTHROPIC_BASE_URL && process.env.ANTHROPIC_MODEL) {
     const base=new URL(process.env.ANTHROPIC_BASE_URL);
     if(base.protocol!=='https:')throw new ApiError(503,'The AI endpoint must use HTTPS.');
