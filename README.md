@@ -38,7 +38,7 @@ Implementation references: [Identity and role checks](src/lib/auth.ts), [session
 
 | Surface | Hosted sign-in email | Access |
 | --- | --- | --- |
-| **Admin** | `yash113gadia@gmail.com` | Platform flags, account/organization management, usage counts and redacted audit events at `/admin`. Fresh sign-in still requires resolution of the existing password-reset issue. |
+| **Admin** | `yash113gadia@gmail.com` | Platform flags, account/organization management, usage counts and redacted audit events at `/admin`. The team completed the password reset and confirmed sign-in works on 10 October 2026; this is user-reported verification. |
 | **User** | `pathfinder.learner-a+clerk_test@example.com` | Saved roadmaps, milestone guidance, progress, evidence and preparation at `/app`. |
 | **Organization** | `pathfinder.teacher+clerk_test@example.com` | Assigned learners, assignments, evidence reviews and classroom quizzes at `/org`. This account has the teacher role. |
 
@@ -52,7 +52,7 @@ Hosted passwords are supplied privately, never committed. For a local workspace 
 
 Follow [Run locally](#run-locally), then run `npm run seed:dev`. These accounts exist only in explicit local development mode. The seeded teacher and learner share an organization; the admin role cannot read private learner roadmaps. Seeding creates accounts and memberships, not invented learner activity or AI results.
 
-For evaluation, start with the learner's saved roadmap or create a manual plan, read a phase and a milestone, and try the built-in diagnostic. Use the organization account to review assigned learners and prepare a classroom quiz. Use the admin account to inspect service controls and the directory. Separate browser profiles avoid replacing another role's sign-in. On the live app, inspect saved work before spending the remaining generation allowance. [Progress](progress.md) records measured checks and unfinished acceptance; browser/mobile review and fresh hosted admin login remain pending.
+For evaluation, start with the learner's saved roadmap or create a manual plan, read a phase and a milestone, and try the built-in diagnostic. Use the organization account to review assigned learners and prepare a classroom quiz. Use the admin account to inspect service controls and the directory. Separate browser profiles avoid replacing another role's sign-in. On the live app, inspect saved work before spending the remaining generation allowance. [Progress](progress.md) records measured checks and unfinished acceptance; broader browser/mobile review remains pending. The team confirmed hosted admin sign-in after completing its reset; see [user-reported admin login evidence](tests/reports/admin-login-user-confirmed.json).
 
 ### AI in the local demo
 
@@ -69,7 +69,7 @@ Authenticated `/api/me` reports `aiReady` and `aiQuota`. `aiReady` confirms conf
 | Evaluation path | Credentials required | What it can exercise |
 | --- | --- | --- |
 | **Fresh local clone, no provider key** | Seeded development login only | Three workspaces, manual roadmaps, progress/revisions, mentoring, built-in diagnostics, classroom questions and credential-free automated tests |
-| **Live deployed app** | Hosted application sign-in, supplied privately | The deployed server already holds provider configuration; the evaluator does not need an OpenRouter key. Saved work and new AI requests are subject to permissions, enabled features and remaining quotas. Fresh hosted admin login remains blocked by its recorded reset issue. |
+| **Live deployed app** | Hosted application sign-in, supplied privately | The deployed server already holds provider configuration; the evaluator does not need an OpenRouter key. Saved work and new AI requests are subject to permissions, enabled features and remaining quotas. The team confirmed admin sign-in after completing its password reset on 10 October 2026. |
 | **Fresh local clone with real AI** | Seeded development login plus a private provider key | The real generation/validation/persistence pipeline, including roadmaps, guidance, personal quizzes and written feedback, when the provider is available |
 
 For a fresh clone, use Node.js 24.x and run:
@@ -185,7 +185,7 @@ The roadmap remains the core of **Statement 1**. Preparation draws from **Statem
 | Area | Recorded verification | Still to verify or finish |
 | --- | --- | --- |
 | **Career roadmap** | Two distinct hosted AI goals produced validated, saved graphs; guidance and a known-skill effort update passed live HTTP checks | Graph interaction, mobile, keyboard, and content-quality acceptance |
-| **Accounts and mentoring** | Hosted sign-in, database writes, ownership checks, assignments, and evidence reviews passed | Operator password reset and fuller staff lifecycle checks |
+| **Accounts and mentoring** | Hosted sign-in, database writes, ownership checks, assignments, and evidence reviews passed | Fuller staff lifecycle checks; admin sign-in after reset confirmed by the user |
 | **Preparation** | Hosted diagnostic/classroom flows passed; local 50/50 concurrent answers passed with duplicate/late rejection | Hosted load, network fairness, and deployment turnover |
 | **Discussion practice** | Real AI text rounds, persistence, cancellation, and exact-quote feedback passed locally | Current hosted discussion flow, microphone, voices, and spoken timing |
 | **Operations** | Three demo domains, Neon PostgreSQL, and Clerk development identity connected | Production identity, automatic builds, restore/failover, SSO/SCIM, and retention policy |

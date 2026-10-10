@@ -19,7 +19,7 @@ This log distinguishes observed failures and missing information from anticipate
 | ISS-009 | Observed access blocker | P1 | Resolved application publication | GitHub publication | Planning and application source published to requested repository using isolated writable checkout; current deployed diagnostic code `1228345`; original checkout preserved |
 | ISS-011 | Repository access | P1 | Blocked by owner | Automatic GitHub builds | Personal repository collaborator can push but cannot grant Vercel GitHub App/import access; `shreyansh-devk` must connect the repository to the existing project |
 | ISS-012 | Production identity prerequisite | P1 | Open | Enterprise identity | Current managed Clerk development instance works; user owns no custom domain. Full production instance requires owned domain/DNS setup |
-| ISS-013 | Fresh operator login | P1 | Open | Admin demonstration | Clerk verifies stored password but normal sign-in requests password reset; preserve existing demo session and resolve reset afterward |
+| ISS-013 | Fresh operator login | P1 | Resolved, user-reported | Admin demonstration | User completed the password reset and confirmed the recorded password works on 10 October 2026; no independent agent login rerun |
 | ISS-014 | Workspace routing loop | P0 for demo | Resolved | Three surfaces | Role was checked after domain routing, and restricted page linked back to wrong workspace. Root and protected page now choose role domain; hosted teacher redirect 307 and authorized pages 200 passed |
 
 ISS-001 and ISS-004 do not block producing or using the product plan. They block an honest claim that newly produced work meets the original competition schedule. ISS-002 is resolved for hosted roadmap/guidance; hosted discussion acceptance remains open. ISS-003 no longer blocks provisioning; its failed CLI history is retained below.
@@ -230,3 +230,7 @@ Deferred under the user's limited-usage instruction: broad formatting/lint/refac
 ### CHG-028 on 10 October 2026: critical fixes published to production
 
 User authorized publication. GitHub received source commit `de613a5`; production deployment `dpl_7tuB2zekuecqVAkjKuGVk1uJoaiY` reached READY after a successful hosted build. All three aliases resolve to it. Live HTTPS checks verified sign-in pages (200), protected workspace redirects (307) and anonymous private API rejection (401). No schema/provider setting change or new inference was performed. Hosted admin reset and authenticated/browser acceptance remain pending. Runtime error-log results were unavailable from the installed CLI, so logs are not marked clean. See `tests/reports/production-critical-fixes.json`; this record supersedes the earlier candidate-only publication status.
+
+### CHG-029 on 10 October 2026: admin reset resolved by user
+
+The user completed the admin password reset and reported the recorded password works. Closed ISS-013 as user-reported and removed the current reset-blocked wording from evaluator instructions and the private handoff. No password, role, session, provider or application-code change was made by the agent. No independent login rerun or browser automation occurred. Historical reports remain intact. The user authorized publication of this documentation-only correction; evidence: `tests/reports/admin-login-user-confirmed.json`.
