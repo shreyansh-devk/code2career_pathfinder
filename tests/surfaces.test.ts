@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { surfaces, surfaceForHost, surfaceRedirect } from '../src/lib/surfaces';
+import { surfaces, surfaceForHost, surfaceRedirect, workspaceUrl } from '../src/lib/surfaces';
 import { checkOrigin, ApiError } from '../src/lib/http';
 
 test('separate surface domains route safely and reject cross-domain mutations', () => {
@@ -13,6 +13,10 @@ test('separate surface domains route safely and reject cross-domain mutations', 
     process.env.APP_ORIGINS = 'https://learner.example,https://operator.example,https://organization.example';
     assert.equal(surfaceForHost('operator.example')?.path, '/admin');
     assert.equal(surfaceForHost('hostile.example'), undefined);
+    assert.equal(workspaceUrl('admin'), 'https://operator.example/admin');
+    assert.equal(workspaceUrl('learner'), 'https://learner.example/app');
+    assert.equal(workspaceUrl('teacher'), 'https://organization.example/org');
+    assert.equal(workspaceUrl('owner'), 'https://organization.example/org');
     const request = new Request('https://learner.example/admin?view=a');
     assert.equal(surfaceRedirect(request)?.href, 'https://operator.example/admin?view=a');
     assert.equal(surfaceRedirect(new Request('https://learner.example/app')), null);

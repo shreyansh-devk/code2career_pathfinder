@@ -17,6 +17,13 @@ export function surfaceForHost(host: string | null) {
   return surfaces().find(surface => surface.url.host === host?.toLowerCase());
 }
 
+export function workspaceUrl(role: 'learner' | 'teacher' | 'owner' | 'admin') {
+  const key = role === 'admin' ? 'admin' : role === 'learner' ? 'user' : 'organization';
+  const path = key === 'admin' ? '/admin' : key === 'user' ? '/app' : '/org';
+  const surface = surfaces().find(item => item.key === key);
+  return surface ? new URL(path,surface.url).toString() : path;
+}
+
 export function surfaceRedirect(request: Request): URL | null {
   if (!['GET', 'HEAD'].includes(request.method)) return null;
   const incoming = new URL(request.url);
