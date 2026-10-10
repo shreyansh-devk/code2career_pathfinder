@@ -22,6 +22,14 @@
 
 New sign-ups default to learners. Teacher access requires operator assignment.
 
+### Authentication is implemented
+
+Private workspaces require authentication and server-side authorization. The deployed app uses Clerk sign-in and sessions, backed by PostgreSQL account roles and organization memberships. Every private API checks identity; roadmap ownership and teacher/organization scope are enforced in server services, independently of navigation or page layouts. The current hosted identity service is a Clerk development instance; full production identity/domain setup remains a separate acceptance item.
+
+The local demo uses password-protected development accounts instead of requiring Clerk setup. It still requires sign-in and applies the same role, ownership and organization checks. Development sessions use HttpOnly cookies and hashed session tokens. This mode must be explicitly enabled with `ENABLE_LOCAL_AUTH=true` outside production. Production rejects local identity/storage and does not fall back to development accounts when managed identity is unavailable.
+
+Implementation references: [Identity and role checks](src/lib/auth.ts), [session-aware request handling](src/proxy.ts), [ownership and organization services](src/lib/store.ts) and [production-mode guard test](tests/production.test.ts).
+
 ### Evaluation accounts
 
 | Surface | Hosted sign-in email | Access |
@@ -41,6 +49,14 @@ Hosted passwords are supplied privately, never committed. For a local workspace 
 Follow [Run locally](#run-locally), then run `npm run seed:dev`. These accounts exist only in explicit local development mode. The seeded teacher and learner share an organization; the admin role cannot read private learner roadmaps. Seeding creates accounts and memberships, not invented learner activity or AI results.
 
 For evaluation, start with the learner's saved roadmap or create a manual plan, read a phase and a milestone, and try the built-in diagnostic. Use the organization account to review assigned learners and prepare a classroom quiz. Use the admin account to inspect service controls and the directory. Separate browser profiles avoid replacing another role's sign-in. On the live app, inspect saved work before spending the remaining generation allowance. [Progress](progress.md) records measured checks and unfinished acceptance; browser/mobile review and fresh hosted admin login remain pending.
+
+### AI in the local demo
+
+Local development accounts use the same real server-side AI generation, validation and persistence code as hosted accounts. Clerk credentials are not needed for AI when using local sign-in. Authentication configuration and AI provider configuration are independent.
+
+A fresh clone with only `.env.example` has empty provider keys, so new AI generation is unavailable. To enable it, privately set `OPENROUTER_API_KEY` in the ignored `.env.local`; `OPENROUTER_MODEL` is already supplied in the example. Restart the development server after changing configuration and sign in as `learner`. The provider must accept the key/model, the server needs network access, the relevant feature flag must be enabled and both provider and application quotas must have capacity. Never put the key in README, Git or a `NEXT_PUBLIC_*` variable.
+
+Authenticated `/api/me` reports `aiReady` and `aiQuota`. `aiReady` confirms configuration is present, not that the provider is currently accepting requests. Real local AI roadmap/quiz generation and written feedback were exercised previously; see [progress and measured evidence](progress.md). Those checks do not guarantee current provider availability. Without a key, manual plans and repository-authored diagnostics remain available; the app does not substitute fake AI output.
 
 ### When AI is rate limited
 
