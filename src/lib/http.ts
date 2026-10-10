@@ -1,4 +1,5 @@
 import { ZodError } from 'zod';
+import { configuredOrigins } from './surfaces';
 export class ApiError extends Error { constructor(public status: number, message: string) { super(message); } }
 export async function body(request: Request) {
   const length = Number(request.headers.get('content-length') || 0);
@@ -16,6 +17,14 @@ export async function body(request: Request) {
   catch { throw new ApiError(400, 'Use a valid JSON request.'); }
 }
 export function checkOrigin(request: Request) {
+  const allowed = configuredOrigins();
+  if (allowed.length) {
+    const origin = request.headers.get('origin');
+    const host = request.headers.get('host') || new URL(request.url).host;
+    if (!origin || !allowed.includes(origin) || new URL(origin).host !== host.toLowerCase()) throw new ApiError(403, 'This request must come from this application.');
+    if (!request.headers.get('content-type')?.startsWith('application/json')) throw new ApiError(415, 'Use application/json.');
+    return;
+  }
   // Next's proxy normalizes the internal URL to localhost in development. Compare the browser
   // origin to the original request authority instead. Browser JavaScript cannot forge Host.
   const target = new URL(process.env.APP_ORIGIN || request.url);
