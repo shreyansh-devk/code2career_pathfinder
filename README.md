@@ -20,7 +20,38 @@
 | **Teacher / organization** | [code2career-organization.vercel.app/org](https://code2career-organization.vercel.app/org) |
 | **Platform operator** | [code2career-admin.vercel.app/admin](https://code2career-admin.vercel.app/admin) |
 
-New sign-ups default to learners. Teacher access requires operator assignment. Evaluation credentials are shared privately; the operator account currently has an unresolved fresh-login password reset.
+New sign-ups default to learners. Teacher access requires operator assignment.
+
+### Evaluation accounts
+
+| Surface | Hosted sign-in email | Access |
+| --- | --- | --- |
+| **Admin** | `yash113gadia@gmail.com` | Platform flags, account/organization management, usage counts and redacted audit events at `/admin`. Fresh sign-in still requires resolution of the existing password-reset issue. |
+| **User** | `pathfinder.learner-a+clerk_test@example.com` | Saved roadmaps, milestone guidance, progress, evidence and preparation at `/app`. |
+| **Organization** | `pathfinder.teacher+clerk_test@example.com` | Assigned learners, assignments, evidence reviews and classroom quizzes at `/org`. This account has the teacher role. |
+
+Hosted passwords are supplied privately, never committed. For a local workspace checkout, the team can find the credential handoff in the ignored `.data/evaluator-access.md`. An evaluator with repository access only can use all three local accounts below; hosted passwords and API keys are not needed for local manual planning, role checks or repository-authored diagnostic/classroom questions. New AI generation requires a separately supplied server-side key and remaining quota.
+
+| Local surface | Username | Password after seeding | Entry point |
+| --- | --- | --- | --- |
+| **Admin** | `admin` | Your `DEV_ACCOUNT_PASSWORD` | `http://127.0.0.1:3300/admin` |
+| **User** | `learner` | Your `DEV_ACCOUNT_PASSWORD` | `http://127.0.0.1:3300/app` |
+| **Organization** | `teacher` | Your `DEV_ACCOUNT_PASSWORD` | `http://127.0.0.1:3300/org` |
+
+Follow [Run locally](#run-locally), then run `npm run seed:dev`. These accounts exist only in explicit local development mode. The seeded teacher and learner share an organization; the admin role cannot read private learner roadmaps. Seeding creates accounts and memberships, not invented learner activity or AI results.
+
+For evaluation, start with the learner's saved roadmap or create a manual plan, read a phase and a milestone, and try the built-in diagnostic. Use the organization account to review assigned learners and prepare a classroom quiz. Use the admin account to inspect service controls and the directory. Separate browser profiles avoid replacing another role's sign-in. On the live app, inspect saved work before spending the remaining generation allowance. [Progress](progress.md) records measured checks and unfinished acceptance; browser/mobile review and fresh hosted admin login remain pending.
+
+### When AI is rate limited
+
+There are two independent limits:
+
+- **OpenRouter allowance:** Free model variants share an account-level request allowance. OpenRouter documents 20 requests per minute and 50 per UTC day before qualifying credit purchases; purchasing at least $10 in credits raises the daily ceiling to 1,000. Check `GET https://openrouter.ai/api/v1/key` from a trusted server or the provider dashboard for `free_model_daily_requests`. Its credit `limit_remaining` is a spending limit, not a count of free requests. Honor `Retry-After` or the rate-limit reset returned on a rejected request. Extra API keys do not reset the account allowance, and switching free models does not replenish a depleted daily allowance. See [OpenRouter's official limits](https://openrouter.ai/docs/api_reference/limits).
+- **Pathfinder allowance:** `/api/me` reports `aiQuota.used`, `limit` and `resetsAt`. The hosted configuration allows 20 generation requests per user in a rolling 24-hour window. Generation failures and the single permitted roadmap repair also consume allowance. Buying OpenRouter credits does not raise this application limit; `AI_DAILY_LIMIT` is a separate server setting capped at 30.
+
+Saved roadmaps, cached milestone guidance, submitted results, manual planning and the built-in diagnostic remain usable without new AI calls. Multiple-choice retakes of an existing personal quiz do not require AI. Generating a new quiz or grading written answers does. Avoid repeated generation clicks while a provider is rejecting requests.
+
+For a larger provider allowance, the team can top up OpenRouter and keep the selected `:free` model, or explicitly configure a funded paid model with a spending cap. Neither option is enabled automatically. OpenRouter takes precedence over the optional CodeCraft/Gateway settings while `OPENROUTER_API_KEY` is set; there is no automatic provider failover. The last hosted CodeCraft check returned 403, so it is not a verified fallback. Provider and upstream capacity limits can still apply after a top-up.
 
 [Why we exist](#why-we-exist) · [Who we serve](#who-we-serve) · [The experience](#the-experience) · [Progress](#done-left-and-the-next-16-hours) · [Architecture](#architecture-and-why) · [Run locally](#run-locally)
 

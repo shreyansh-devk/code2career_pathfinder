@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-10",
+  "commit": "477b1ee",
+  "deployment": "dpl_EKu3Sqq4AaYvA3PW3LzoGe4sKLwz",
+  "state": "READY",
+  "domains": [
+    "code2career-pathfinder.vercel.app",
+    "code2career-admin.vercel.app",
+    "code2career-organization.vercel.app"
+  ],
+  "checks": {
+    "localTypecheck": "passed",
+    "localTests": "37 passed, 0 failed",
+    "localBuild": "passed",
+    "vercelBuild": "passed",
+    "me": 200,
+    "workspace": 200,
+    "selfQuizzes": 200,
+    "ownedRoadmapPage": 200,
+    "ownedRoadmapData": 200,
+    "deployedAssets": {
+      "Focus selected": true,
+      "Full roadmap": true,
+      "Roadmap phase": true,
+      "roadmap-grid-major-": true,
+      ".graph-view-toolbar": true,
+      "--graph-height": true
+    },
+    "aiQuotaUnchanged": true
+  },
+  "changes": [
+    "Phase views retain direct prerequisites",
+    "Full-map view and selected-milestone focus",
+    "Compact dependency layout with centered merges",
+    "Line grid and adaptive canvas height",
+    "Larger titles, status labels and phase colours",
+    "Grid and wrapped titles in SVG export"
+  ],
+  "notVerified": [
+    "Browser phase switching, zoom, keyboard and mobile interactions",
+    "GitHub workflow publication and automatic Vercel Git builds"
+  ]
+}
