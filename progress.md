@@ -4,31 +4,31 @@ Last updated: 10 October 2026. Primary brief: Statement 1. Product plan: [plan.m
 
 ## Current verified state
 
-The application is implemented locally across all three surfaces. Backend flows have been exercised against a real running Next.js server and persistent local PostgreSQL/PGlite. The user explicitly owns browser testing. Production resources, deployment and enterprise operating readiness are not verified.
+Application source is published on GitHub and three Vercel domains are live. Managed Neon PostgreSQL and a managed Clerk development instance are connected to the deployment. Real authenticated HTTP checks passed for saved roadmap and preparation workflows. Hosted AI roadmap generation currently returns 502; it is not accepted as working. The user owns all browser testing.
 
 | Item | State | Evidence or limitation |
 | --- | --- | --- |
-| Source document and requested plan | Verified | Source XML/image inspected; four planning/tracking files created and checked |
-| Published planning files | Verified | `main` and remote planning commit `b81b4f6eadfacea3ae40d4c3507a36ba8ccf2476`; origin is the requested repository |
-| Application code | Implemented locally | Next.js/React/TypeScript, role-protected learner/organization/operator surfaces; saved in local application commit `9977321`, not pushed or deployed |
-| Local identity and database | Verified locally | Seeded development accounts, actual authenticated HTTP requests, persistent PGlite data retained across server restarts |
-| Real AI roadmap | Verified locally | CodeCraft `claude-opus-4.8` returned and saved 16 payment-engineering milestones and 15 accessible-finance UX-research milestones (11 skills, 2 projects, 2 roles), each with intermediate and target roles |
-| Real milestone guidance | Verified locally | Actual provider response: project, actions, acceptance criteria, assessment questions and clearly labeled resource searches |
-| Access controls and roadmap conflict handling | Verified locally | Anonymous 401; another learner/operator private reads 404; learner admin 403; locked completion 400; simultaneous writes 200/409 |
-| Teacher review and assignments | Verified locally | Correct teacher review/assignment saved and visible to learner; another organization denied; assignment ownership enforced |
-| Restore, constraints and sharing | Verified locally | New revision changes weekly hours; restore preserves matching known mark; public snapshot excludes intake/profile/progress/evidence; revocation returns 404 |
-| Solo diagnostic and notebook | Backend verified locally | Hidden answers before submit, 5/6 correct result, replay returns original grade/time; missing questions saved for revision |
-| Staff access revocation and feature controls | Verified locally | Removing teacher membership denies reads immediately; pausing new quiz rooms returns 503 while existing room remains readable |
-| Classroom quizzes | Backend verified locally | Authored table payload, immutable room copy, automatic deadline/finish, shuffled opaque option IDs, hidden answers, final report and organization league |
-| 50-player concurrency | Verified locally | 50 logins, joins and concurrent accepted answers; duplicates/late 409; reconnect retains answer; 50 final standings. See `tests/reports/quiz-load-local.json` |
-| AI discussion and transcript | Backend verified locally | Real 3-person AI panel plus moderator, 4 feedback criteria with 9 exact validated learner quotes, 3 next actions; saved contributions survive failure; cross-owner 404; pause/resume and stale-response cancellation verified (409, no late AI turns saved) |
-| Browser/speech/mobile/accessibility | User-owned, pending | Browser automation was denied earlier; no browser is launched following the user's instruction. No browser/speech pass claimed |
-| Code checks | Verified locally | `npm run check`, `npm test` (17 passed), `npm run build` passed; production dependency audit reported 0 vulnerabilities |
-| Vercel tooling and integrations | Partially investigated | Temporary CLI 63.1.2 installed; marketplace discovery still failed. Global CLI observed at 58.4.0; upgrade recommended |
-| Managed production identity/database and live URL | Not provisioned | Clerk integration and hosted PostgreSQL adapter exist; no dedicated resources or deployment. `npm run start -- --port 3200` was denied with listen EPERM; production HTTP not verified. Production local-storage rejection passed its unit guard |
-| Competition eligibility and final PPT | Pending | Source freeze date conflict remains; no final submission/eligibility claim |
+| Plan and original constraints | Verified documentation | Source was inspected; four requested Markdown files were created and checked |
+| GitHub application publication | Published | Requested repository `shreyansh-devk/code2career_pathfinder`; isolated publication checkout preserves original history |
+| Three hosted domains | Live verified HTTP | Learner `code2career-pathfinder.vercel.app`, admin `code2career-admin.vercel.app`, organization `code2career-organization.vercel.app`; HTTPS sign-in pages return 200 |
+| Managed PostgreSQL | Live verified | Dedicated Neon resource in Singapore; 29 additive migration statements succeeded after compatible code deployed; hosted writes/readback passed |
+| Managed identity | Live verified development instance | Real Clerk password sign-ins and origin-bound session tokens passed; local production login endpoint returns 404; full production identity still needs an owned domain |
+| Saved roadmap workflow | Live verified backend | Manual create 201, owner read 200, mark 200, stale revision 409; saved data persists |
+| Hosted access boundaries | Live verified backend | Other learner/operator private reads 404, learner admin 403, anonymous 401, cross-origin mutation 403 |
+| Teacher and organizations | Live verified backend | Operator created organization/assigned membership; teacher reviewed evidence and assigned work; learner readback contains approval and assignment; foreign organization denied 404 |
+| Solo preparation | Live verified backend | Start 201, submit 200; scored attempt persisted and returned in learner workspace |
+| Classroom flow | Live verified backend | Set/room/join/start and scoring passed, answers hidden before reveal, manual stop 200; cross-organization join denied 404; answer after close denied 409 |
+| 50-player concurrency | Verified locally only | 50/50 accepted with duplicate/late denial and final standings; hosted load/fairness/turnover not tested |
+| AI roadmap, guidance and discussions | Verified locally with original provider | Real local role-specific graphs, milestone guidance, panel and exact-quote feedback passed; this is not proof of current hosted AI operation |
+| Selected OpenRouter free model | Direct request verified; hosted failing | Exact SDK request returned 200 directly and passed schema/career-graph validation and SDK replay; two hosted requests returned 502; diagnostic release now records safe metadata |
+| Workspace restriction fix | Live verified backend | Teacher on learner `/app` receives 307 to organization `/org`; learner and teacher authorized pages return 200 with no restricted/error screen |
+| Operator fresh sign-in | Open issue | Stored password verified by Clerk backend, but normal fresh sign-in reports password reset required; existing browser session was retained |
+| Code checks | Passed | Typecheck, build and 22 tests passed for diagnostic release; prior client secret scan found zero supplied AI keys |
+| GitHub automatic builds | Blocked by repository-owner access | Collaborator has push permission, no admin/owner access; Vercel GitHub App and project Git connection remain pending |
+| Browser, speech, mobile and accessibility | User-owned, pending | No browser launched following instruction; no visual/speech pass claimed |
+| Enterprise operations and final presentation | Pending | Owned-domain production identity, SSO/SCIM, retention, restore/failover, hosted workload and final PPT remain open |
 
-Checked backend evidence does not certify a browser flow or a hosted release. R0–R8 are acceptance gates for the full product plan, not a claim that every planned feature has shipped.
+Backend evidence does not certify browser behavior, enterprise readiness or hackathon eligibility. Current application code checkpoint: `1228345`, deployed as `dpl_EvY9vmhFeafJRBKePGU3bS7AjbbN` (READY). The previous routing release is `b47555d`. Deployment rollback does not undo database writes.
 
 ## Status convention
 
@@ -46,12 +46,12 @@ Use unchecked boxes until acceptance passes. Do not label a release complete fro
 
 | Release | Scope | State | Dependency | Accepted evidence |
 | --- | --- | --- | --- | --- |
-| R0 | Real integration and environment readiness | In progress | Managed login/database and preview environment | Local auth/database and real supplied AI verified |
-| R1 | Full Statement 1 core | Backend verified; UI pending | User browser review and hosted verification | Two distinct AI goals, real advice, persistence and ownership/conflict checks |
+| R0 | Real integration and environment readiness | Hosted identity/database verified; AI blocked | Hosted AI, production identity and environment isolation | Real Clerk sign-in, Neon writes and direct OpenRouter response |
+| R1 | Full Statement 1 core | Local AI/backend verified; hosted generation blocked | Hosted AI repair and user browser review | Two local AI goals/advice; hosted manual persistence and ownership/conflicts |
 | R2 | Roadmap personalization and depth | Partially implemented | Alternative-path/source depth and UI acceptance | Constraints, edit/revision/restore, share/revoke and exports |
-| R3 | Three functional surfaces | Backend verified subset | Organization-owner management/support lifecycle and hosted checks | Scoped reviews, assignments, operator controls, tenant denial and staff revocation |
-| R4 | Solo preparation and evidence loop | Backend verified subset | Role-specific interview depth and UI acceptance | Reviewed diagnostic, saved grading/replay, notebook and assignments |
-| R5 | Full multiplayer AptiQuiz | Backend verified locally | Hosted turnover, latency profiles and UI acceptance | 50-player local concurrency, timing, scoring, reconnect/duplicate/late tests |
+| R3 | Three functional surfaces | Hosted backend verified subset | Owner/support lifecycle, fresh operator login and browser review | Hosted scoped reviews, assignments, operator controls and tenant denial |
+| R4 | Solo preparation and evidence loop | Hosted backend verified subset | Role-specific interview depth and UI acceptance | Hosted diagnostic start/submit, saved attempt and teacher assignment |
+| R5 | Full multiplayer AptiQuiz | Local load and hosted small flow verified | Hosted 50-player/turnover, latency profiles and UI acceptance | Local concurrency plus hosted author/join/start/answer/stop and tenant denial |
 | R6 | Full spoken GD Arena | Text backend verified; speech pending | User microphone/voice tests, closing/timer depth and deployed latency | Real AI panel, exact-quote feedback, transcript persistence and failure recovery |
 | R7 | Advanced career and preparation features | Planned | Relevant R4–R6 modules | None |
 | R8 | Enterprise institutional pilot | Planned | R3–R7 plus operating controls | None |
@@ -215,9 +215,21 @@ A burst of repeated development rebuilds was observed in the older test-server l
 
 ## Next executable step
 
-The local app is ready for the user's browser review. Provision and verify dedicated managed identity/PostgreSQL before a production release. Resolve the original date conflict before claiming competition eligibility. Preserve the current tested local work; publish/deploy only after explicit approval for that outward action.
+Repair hosted AI generation from observed diagnostics. The user can demonstrate saved roadmap, teacher and preparation workflows now. Repository owner must connect Vercel for automatic builds. Resolve operator password reset without disrupting the active demo session, then complete browser and operating acceptance. Existing user authorization covers publication and deployment; paid upgrades remain disabled. Competition timing still needs organizer confirmation.
 
 
 ## Durable application checkpoint
 
 Application code checkpoint: **`9977321`**, `feat: build career planning and preparation workspaces`. Source, lockfile, tests, measured load report and current documentation were committed locally after backend verification, successful build/typecheck and 17 passing tests. The secret scan found no private environment/data paths staged and no supplied token in the staged diff or client bundles. No application push or deployment occurred. A following documentation-only commit records this checkpoint; the code SHA remains the reference for this acceptance evidence.
+
+## Hosted release evidence, 10 October 2026
+
+The user explicitly authorized GitHub publication, managed database setup and full deployment, while retaining browser testing. App publication used an isolated writable checkout because the original checkout's Git metadata is restricted; no force-push or history rewrite occurred. The optional workflow file remains local because the available GitHub authorization lacks workflow scope. GitHub App connection is a separate repository-owner blocker.
+
+Dedicated free Neon and Clerk resources were provisioned and connected. Clerk marketplace acceptance was completed by the user. No paid add-ons were enabled. Code compatible with the additive schema was deployed before the migration. Synthetic evaluation users/organizations were retained for the demo. Their passwords, session cookies, JWTs and provider keys are in private ignored files, never in this report.
+
+Actual hosted results: manual roadmap create/read/mark and stale conflict; other learner/operator private read denial; learner admin and cross-origin denial; teacher assigned overview, evidence approval and assignment readback; diagnostic start/submit/history; classroom author/create/join/start, hidden answers, scored answer, stop and closed-answer rejection; foreign organization join/assignment denial. The hosted closed-answer rejection is not evidence for a duplicate-specific guard; that guard was tested independently in the local 50-player run.
+
+The role routing release passed 20 tests/build/typecheck and was deployed as `b47555d`. Its hosted teacher redirect and authorized learner/teacher pages passed. The AI diagnostic release passed 22 tests/build/typecheck and was deployed as `1228345`. CodeCraft hosted requests returned provider 403; switching to the user-selected OpenRouter free model produced valid direct output, but hosted generation still failed. Existing plans were unchanged. Further generation results must be recorded before closing the issue.
+
+Remaining acceptance: hosted AI generation/advice/discussions, fresh operator login, repository-owner Git connection, owned-domain production Clerk identity, user browser/mobile/speech review, hosted 50-player/fairness/turnover and restore/incident drills. A deployed demo is not enterprise certification.

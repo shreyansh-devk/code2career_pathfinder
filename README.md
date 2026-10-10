@@ -1,5 +1,7 @@
 # Code2Career Pathfinder
 
+Live demo: [Learner](https://code2career-pathfinder.vercel.app/app), [Admin](https://code2career-admin.vercel.app/admin), [Teacher/organization](https://code2career-organization.vercel.app/org). Source is published in this repository. Managed Neon PostgreSQL and a Clerk development instance are connected. Hosted AI roadmap generation currently returns 502 and is under investigation; saved manual roadmaps remain usable. Demo passwords are distributed privately, never committed.
+
 ## 1. What it does and the selected problem statement
 
 Pathfinder turns a specific career goal into a connected learning roadmap. Statement 1 is the primary brief: skills, projects, intermediate roles, the target role, effort estimates, an interactive dependency graph, milestone guidance and progress that changes downstream availability. Preparation incorporates classroom quizzes from Statement 3 and group discussions from Statement 2.
@@ -8,11 +10,11 @@ The application has three authenticated surfaces: learner (`/app`), teacher or o
 
 ## 2. Done, left and the plan for the next 16 hours
 
-Implemented locally: career intake, real AI roadmap generation, validated dependency graphs, milestone guidance, known/completed marks, timeline recalculation, editable milestones, immutable revisions and restore, evidence review, teacher assignments, export and revocable sharing. Also implemented: a server-graded diagnostic, error notebook, reusable classroom question authoring with image/table support and reordering, timed rooms, stable per-player shuffled options, leaderboard, final topic/accuracy/speed report, organization league, and persisted AI discussion transcripts with exact-quote feedback validation. Browser speech recognition and synthesis are optional, with permission, review and interruption controls.
+Implemented: career intake, AI roadmap integration, validated dependency graphs, milestone guidance, known/completed marks, timeline recalculation, editable milestones, immutable revisions and restore, evidence review, teacher assignments, export and revocable sharing. Also implemented: a server-graded diagnostic, error notebook, reusable classroom question authoring with image/table support and reordering, timed rooms, stable per-player shuffled options, leaderboard, final topic/accuracy/speed report, organization league, and persisted AI discussion transcripts with exact-quote feedback validation. Browser speech recognition and synthesis are optional, with permission, review and interruption controls.
 
-Verified evidence and remaining acceptance checks are maintained in [progress.md](progress.md). This is a working local application, not a verified enterprise production deployment. Managed identity/database provisioning, production deployment, operational restore/failover drills, SSO/SCIM, institutional retention policy, a final PPT and broader R7/R8 features remain open. The user owns browser testing, including graph interaction, mobile layout, accessibility and microphone/voice behavior. No successful speech test or live URL is claimed.
+Verified evidence and remaining acceptance checks are maintained in [progress.md](progress.md). Hosted sign-in, PostgreSQL writes, saved roadmap ownership/conflicts, teacher assignments/reviews, diagnostics and a classroom quiz flow passed actual HTTP checks. This is a deployed demo with development identity, not a verified enterprise release. Hosted AI reliability, production Clerk identity on an owned domain, GitHub automatic builds, hosted 50-player/restore/failover drills, SSO/SCIM, institutional retention policy, a final PPT and broader R7/R8 features remain open. The user owns browser testing, including graph interaction, mobile layout, accessibility and microphone/voice behavior.
 
-The next 16 hours are a planning window, not a measured completion estimate or an organizer deadline: first finish the user’s browser review and repair reported issues; then provision and verify managed login/PostgreSQL and a preview deployment; exercise two-tenant and 50-player checks on that preview; prepare the required PPT and freeze a tested release before optional enterprise expansion. The original document’s final freeze date conflicts with this session date; eligibility needs organizer confirmation.
+The next 16 hours are a planning window, not a measured completion estimate or an organizer deadline: repair hosted AI generation; finish the user’s browser review; have the GitHub repository owner connect the Vercel GitHub App; exercise hosted load/restore checks; prepare the required PPT and freeze a tested release before further enterprise work. The original document’s final freeze date conflicts with this session date; eligibility needs organizer confirmation.
 
 ## 3. Architecture and why
 
@@ -22,7 +24,7 @@ PostgreSQL stores roadmaps, immutable revisions, reviews, assignments, accepted 
 
 Classroom timing derives from PostgreSQL’s clock, a saved start time and immutable question durations. Answers are accepted atomically under a room lock and unique player/question key. There is no process-local countdown or scheduler to lose on restart. Clients poll and restore server state on reconnect. A correct answer earns 1,000 plus a bounded 0–500 speed bonus. The bonus measures server arrival time and is affected by network delay; it does not prove learner ability.
 
-AI SDK 7 calls the configured provider only from the server. Supplied `ANTHROPIC_*` names select CodeCraft’s OpenAI-compatible chat API, because its `/messages` endpoint returned 404 during verification. [CodeCraft documents this adapter](https://codecraftapi.com/docs/coding-agents). Optional AI Gateway configuration is also supported. AI requests have output limits, no automatic retries, a two-minute timeout and a default 10-request per-user 24-hour quota. Existing valid work survives provider failures. Feature flags pause all new AI generation, solo practice, classroom rooms and discussion turns; cached work remains readable.
+AI SDK 7 calls the configured provider only from the server. `OPENROUTER_API_KEY` takes priority, using the user-selected `nvidia/nemotron-3-ultra-550b-a55b:free` model. Its adapter requests JSON through the prompt and validates it through the schema and career-graph rules; malformed output is rejected. Failure diagnostics contain error metadata, never provider bodies, prompts or credentials. Supplied `ANTHROPIC_*` names select CodeCraft’s OpenAI-compatible chat API, because its `/messages` endpoint returned 404 during verification. [CodeCraft documents this adapter](https://codecraftapi.com/docs/coding-agents). Optional AI Gateway configuration is also supported. AI requests have output limits, no automatic retries, a two-minute timeout and a default 10-request per-user 24-hour quota. Existing valid work survives provider failures. Feature flags pause all new AI generation, solo practice, classroom rooms and discussion turns; cached work remains readable.
 
 Discussion contributions are saved before generation. Pausing invalidates an in-flight generation version so a late response cannot re-enter the session. Feedback must cite an exact substring of a real learner turn for each criterion. Participation percentages measure text words, not speaking time. Browser-provided voices and speech services vary; separate voices for every participant are available only when the browser supplies enough voices. This is turn-based practice, not a verified full-duplex audio arena.
 
@@ -38,7 +40,7 @@ Schema migration is additive and shared by local and hosted databases. Preserve 
 - Persisted discussions, pause/cancel/resume, transcript export, evidence-linked coaching and honest speech capability disclosure.
 - Server-enforced quotas, release controls, redacted audit events and automated security/domain tests.
 
-The full roadmap beyond this local build remains in [plan.md](plan.md). Changes, observed failures and decisions are tracked in [issues-changes.md](issues-changes.md). Organizer constraints are recorded in [constraints.md](constraints.md).
+The full product roadmap remains in [plan.md](plan.md). Changes, observed failures and decisions are tracked in [issues-changes.md](issues-changes.md). Organizer constraints are recorded in [constraints.md](constraints.md).
 
 ## 5. How to run, test logins and live URL
 
@@ -58,7 +60,7 @@ npm run dev
 
 Open **http://127.0.0.1:3000** yourself. Development usernames are `learner`, `teacher`, `admin`, `learner-two`, and `other-teacher`. All use `DEV_ACCOUNT_PASSWORD`; the sample default is `pathfinder-local-2026`. These accounts are labeled local development. The second learner and teacher belong to a separate organization. No fake AI roadmap is seeded.
 
-For production, set `ENABLE_LOCAL_AUTH=false`, provision Clerk and hosted PostgreSQL separately, configure `APP_ORIGIN` to the exact public HTTPS origin, and set `PLATFORM_ADMIN_IDS` to explicitly authorized Clerk user IDs. Deploy compatible code to an isolated preview first, then run `npm run db:migrate` against its intended database and verify it before enabling the new features or promoting traffic. Upgrade the global Vercel CLI before deployment with `npm i -g vercel@latest` (the workspace global CLI was 58.4.0; a temporary 63.1.2 installation was checked). New Clerk accounts default to learners and can be assigned to an organization by an authorized operator.
+For another hosted environment, set `ENABLE_LOCAL_AUTH=false`, provision Clerk and hosted PostgreSQL, configure `APP_ORIGIN` and `APP_ORIGINS` to the intended public HTTPS origins, set `USER_APP_URL`, `ADMIN_APP_URL` and `ORG_APP_URL` for three-domain routing, and set `PLATFORM_ADMIN_IDS` to explicitly authorized Clerk user IDs. Deploy compatible code to an isolated preview first, then run `npm run db:migrate` against its intended database and verify it before enabling the new features or promoting traffic. Upgrade the global Vercel CLI before deployment with `npm i -g vercel@latest` (the workspace global CLI was 58.4.0; a temporary 63.1.2 installation was checked). New Clerk accounts default to learners and can be assigned to an organization by an authorized operator.
 
 ```sh
 npm run check
@@ -89,7 +91,7 @@ npm run test:load
 
 The script accepts only a loopback HTTP server, uses synthetic accounts and writes a measured report. [The recorded local 50-player result](tests/reports/quiz-load-local.json) accepted 50/50 simultaneous answers with duplicate/late denial and persisted final standings. It is a local concurrency smoke test, not a production capacity benchmark.
 
-**Live URL: not deployed.** No current application code push or production deployment is claimed. The planning commit previously published to the repository is recorded in the progress tracker.
+**Live URLs:** [Learner](https://code2career-pathfinder.vercel.app/app), [Admin](https://code2career-admin.vercel.app/admin), [Teacher/organization](https://code2career-organization.vercel.app/org). Signed-in pages route accounts to their authorized workspace. New accounts are learners by default; teachers must be assigned by the operator. Existing evaluation learner/teacher credentials are provided privately. The operator account currently requests a password reset on a fresh login; retain the existing session during the demo. Automatic GitHub builds remain blocked on the personal repository owner granting the Vercel GitHub App access and connecting the repository.
 
 ## 6. Tools and AI disclosure
 

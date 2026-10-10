@@ -428,3 +428,9 @@ The first local application is now implemented. Refer to `progress.md` for measu
 The local quiz implementation uses database-clock derived phases and polling rather than a process-local scheduler or unverified WebSocket infrastructure. A 50-player local concurrency test passed. Production multi-instance/restart/fairness acceptance remains required. Discussion practice supports real AI personas and exact-transcript coaching with optional browser speech. It is not yet the fully verified spoken arena described by R6. The user owns browser testing and the agent will not launch a browser.
 
 All new modules preserve saved roadmap read/edit/review flows. Flags stop new work without deleting existing work. Additive schema, immutable room copies/revisions and conflict checks provide an incremental foundation; a stable live release still requires isolated preview verification and an authorized deployment. R7/R8 institutional/operational features remain explicit work, not implied by having three dashboards.
+
+## Hosted checkpoint, 10 October 2026
+
+Source is now published and three Vercel demo domains are live with real managed Neon PostgreSQL and Clerk development identity. Hosted saved roadmap, organization/teacher, diagnostic and classroom backend flows were exercised. See progress.md for exact evidence and remaining checks. Current hosted AI generation is failing despite a valid direct OpenRouter response; it remains the first repair priority. Existing valid roadmaps remain readable and editable during this investigation.
+
+The user-selected OpenRouter free model takes priority over the original CodeCraft provider. No automatic paid fallback was added. Repository-owner Vercel GitHub App access is still needed for automatic builds. A purchased/owned domain and production Clerk setup, browser/speech checks, hosted load/restore drills and the rest of R7/R8 remain required. Three live dashboards do not establish enterprise readiness.

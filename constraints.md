@@ -147,4 +147,4 @@ Retention periods, scoring constants, node caps, percentage time allocations, ru
 
 Before a competition submission, check H-01–H-19 and PS1-01–PS1-07 against actual evidence, reconcile ISS-001/ISS-004, and inspect the required README. Include only working extensions under “Done”; list unfinished ones under “Left / Plan.” Before enabling AptiQuiz or GD, pass the corresponding imported module gate. Before calling the product enterprise-ready, pass R8’s operating and institution checks.
 
-Current status: constraints documented, implementation and eligibility not verified. This task has not submitted or published anything.
+Current status: source constraints documented; application publication and hosted backend evidence are recorded in progress.md. Browser/mobile/speech acceptance, final PPT, operating gates and competition eligibility remain unverified. No competition submission is claimed.

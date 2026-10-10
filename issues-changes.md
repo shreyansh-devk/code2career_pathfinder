@@ -9,16 +9,20 @@ This log distinguishes observed failures and missing information from anticipate
 | ID | Type | Priority | State | Affects | Finding and next action |
 | --- | --- | --- | --- | --- | --- |
 | ISS-001 | Timing/eligibility uncertainty | P0 for competition claims | Open | Original submission | Source says Fri 9 Oct 10:00 am final freeze; session date is 10 Oct 2026. Year/timezone and current organizer policy need confirmation. Do not claim post-freeze work was eligible or backdate commits |
-| ISS-002 | Service dependency | P1 | Partially resolved | R0/production and voice | Supplied CodeCraft key/model verified with real roadmaps, guidance and a discussion panel. Key is server-side and ignored. Dedicated hosted identity/PostgreSQL resources, deployment and speech verification remain pending |
-| ISS-003 | Observed tooling failure | P1 | Open | Integration provisioning | Global CLI 58.4.0; temporary CLI 63.1.2 installed in writable temp directory and discovery retried, still failed to fetch. No resources provisioned. Upgrade the global CLI and retry from a permitted network environment |
+| ISS-002 | Hosted AI failure | P0 for live Statement 1 | Open | Roadmap generation/advice/discussions | Original CodeCraft works locally but hosted requests returned 403. User-selected OpenRouter free model returns valid direct output, but hosted roadmap requests returned 502. Safe failure diagnostics deployed; no hosted success claimed |
+| ISS-003 | Observed tooling failure | P1 | Resolved provisioning; CLI limitation retained | Integrations | CLI fetch failed; verified official API fallback provisioned dedicated Neon/Clerk resources and connected them. Global CLI 58.4 remains outdated, temporary 63.1.2 available; upgrade recommended |
 | ISS-004 | Source omission | P1 for submission | Open | Repository and Round 1 | “Deadline above” and Round 1 snapshot timestamp are not provided in this DOCX. Obtain current organizer schedule; do not invent times from the README’s “next 16 hours” wording |
 | ISS-005 | Planning assumption | P1 | Open | Release estimates | Team size, actual remaining build window, target institutional scale and budget unknown. Re-estimate after R0; do not promise all releases in a hackathon day |
 | ISS-006 | Architecture spike | P1 | Planned | R5/R6 | Real-time runtime, shared coordination, scheduler lifecycle and speech capabilities must be verified under deployment limits. Spike reconnect, process turnover and durable state before enabling rooms |
 | ISS-007 | Data/content dependency | P1 | Planned | RD-06/RD-12 and preparation | Need reviewed references, legitimate pathway evidence, question answers and rubrics. No fabricated people, credentials, job listings or quoted transcript moments |
 | ISS-008 | Pilot decisions | P2 | Open | R8 | Confirm organization retention/sharing expectations, required identity integration, support owner and operating targets with actual pilot institution before claiming enterprise readiness |
-| ISS-009 | Observed access blocker | P1 | Resolved for planning | Planning-file publication | User completed Git setup/publication. Local main and remote planning head were verified at `b81b4f6eadfacea3ae40d4c3507a36ba8ccf2476`; origin matches the requested repository. Application changes have not been pushed |
+| ISS-009 | Observed access blocker | P1 | Resolved application publication | GitHub publication | Planning and application source published to requested repository using isolated writable checkout; current deployed diagnostic code `1228345`; original checkout preserved |
+| ISS-011 | Repository access | P1 | Blocked by owner | Automatic GitHub builds | Personal repository collaborator can push but cannot grant Vercel GitHub App/import access; `shreyansh-devk` must connect the repository to the existing project |
+| ISS-012 | Production identity prerequisite | P1 | Open | Enterprise identity | Current managed Clerk development instance works; user owns no custom domain. Full production instance requires owned domain/DNS setup |
+| ISS-013 | Fresh operator login | P1 | Open | Admin demonstration | Clerk verifies stored password but normal sign-in requests password reset; preserve existing demo session and resolve reset afterward |
+| ISS-014 | Workspace routing loop | P0 for demo | Resolved | Three surfaces | Role was checked after domain routing, and restricted page linked back to wrong workspace. Root and protected page now choose role domain; hosted teacher redirect 307 and authorized pages 200 passed |
 
-ISS-001 and ISS-004 do not block producing or using the product plan. They block an honest claim that newly produced work meets the original competition schedule. ISS-002 is resolved for the supplied AI service; ISS-003 still blocks marketplace provisioning in this environment.
+ISS-001 and ISS-004 do not block producing or using the product plan. They block an honest claim that newly produced work meets the original competition schedule. ISS-002 remains open for hosted AI. ISS-003 no longer blocks provisioning; its failed CLI history is retained below.
 
 ### Observed failure evidence
 
@@ -69,7 +73,7 @@ These risks remain relevant to the implemented local application. Local verifica
 | DEC-007 | R5 is full AptiQuiz; R6 is full spoken GD | Preserve source depth and avoid claiming solo/text practice fulfills the imported real-time modules | Adopted release gates |
 | DEC-008 | Last verified release remains usable during development | User’s timing-resilience requirement; use isolated candidates, flags, compatible schema and core smoke checks | Adopted delivery rule |
 | DEC-009 | Enterprise objective continues through R8 | First demo is an early checkpoint; institutional controls and operating evidence remain required work | Adopted product horizon |
-| DEC-010 | Managed production auth/PostgreSQL plus supplied AI service | Production adapters exist; local auth/PGlite and real CodeCraft compatibility are verified. Managed resources remain unprovisioned | Partially implemented |
+| DEC-010 | Managed production auth/PostgreSQL plus supplied AI service | Production adapters exist; local auth/PGlite and real CodeCraft compatibility are verified. Dedicated Neon and managed Clerk development identity connected and exercised; owned-domain production identity remains open | Partially implemented |
 | DEC-011 | No fabricated pathway or outcome evidence | Honest realism requires sources and clear hypothetical labels | Adopted content rule |
 | DEC-012 | Network fairness and readiness are qualified claims | Quantified design/test criteria instead of claiming perfect click-time knowledge or guaranteed employability | Adopted measurement rule |
 
@@ -121,7 +125,7 @@ Repeated rebuilds were observed in the older test-server logs. A focused investi
 
 ### ISS-010: browser and deployment acceptance
 
-Earlier browser automation failed with sandbox `EPERM`/browser launch errors. The user then explicitly instructed the agent not to run a browser. No browser was launched afterward. User-owned visual, keyboard, mobile and microphone tests remain pending. `npm run start -- --port 3200` also failed with `listen EPERM: operation not permitted 127.0.0.1:3200`; production HTTP could not be exercised here. A separate production-mode guard test confirmed local filesystem storage is rejected. Hosted login/database, production load/failover/restore, final PPT and live deployment also remain pending. The app is not labeled enterprise-ready until these gates pass.
+Earlier browser automation failed with sandbox `EPERM`/browser launch errors. The user then explicitly instructed the agent not to run a browser. No browser was launched afterward. User-owned visual, keyboard, mobile and microphone tests remain pending. `npm run start -- --port 3200` also failed with `listen EPERM: operation not permitted 127.0.0.1:3200`; production HTTP could not be exercised here. A separate production-mode guard test confirmed local filesystem storage is rejected. Hosted login/database and live deployment were subsequently verified; production load/failover/restore and final PPT remain pending. See the current hosted checkpoint in progress.md. The app is not labeled enterprise-ready until these gates pass.
 
 ## Maintenance rules
 
@@ -133,3 +137,19 @@ Do not close an issue because a mitigation has been written. Close it after the 
 ### CHG-010 on 10 October 2026
 
 Saved the verified application locally as commit `9977321`, with 85 changed files. Git staging and commit succeeded after the user had initialized the repository. No supplied token or private environment/data file was staged; the client-bundle secret scan returned zero matches. Normal local server is running on port 3000 with AI configuration ready and an unused 10-request allowance. No new Git push or deployment was performed. Publishing this application checkpoint remains a separate outward action under the user's operating standards.
+
+### CHG-011 on 10 October 2026
+
+Published the application to the requested GitHub repository and deployed a dedicated Vercel project. Provisioned free dedicated Neon PostgreSQL and Clerk development identity resources, applied 29 compatible additive statements after deploying their readers/writers, and exercised real hosted sign-in and database workflows. Connected three HTTPS Vercel domains with server-enforced origin and role rules. No paid upgrades or fabricated production identity were introduced. Git automatic builds remain blocked by personal repository-owner permission, separately from successful source publication.
+
+### CHG-012 on 10 October 2026
+
+Added the user-selected OpenRouter free model adapter. The model does not advertise native structured-output response format, so the SDK adapter places the JSON Schema in the prompt and retains schema/career-graph validation. Direct exact request returned 200 and a valid graph; full SDK response replay passed. Hosted calls returned 502, so this is an observed open failure, not a completed hosted AI integration. Both API keys remain ignored/server-side; a client-bundle scan found zero occurrences.
+
+### CHG-013 on 10 October 2026
+
+Fixed signed-in root and protected-page routing to choose the account's role, with sign-in/signup returning through the root. The prior restricted page could loop an admin/teacher back to the learner workspace. Twenty tests, typecheck and build passed; published/deployed `b47555d`, then hosted teacher-on-learner redirect 307 and authorized learner/teacher pages 200 passed. API permissions remain enforced.
+
+### CHG-014 on 10 October 2026
+
+Added production AI diagnostics limited to error names/codes, HTTP status, finish label and output length. Known graph errors receive specific audit categories; prompts, provider payloads, credentials and raw error messages are excluded. New adversarial diagnostic tests passed, bringing the suite to 22 tests. Published/deployed `1228345` as READY and started a fresh authenticated hosted generation check. Actual failure/success is recorded in progress.md, not inferred from the deployment build.

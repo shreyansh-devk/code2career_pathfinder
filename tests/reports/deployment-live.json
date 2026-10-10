@@ -1,0 +1,36 @@
+{
+  "verifiedAt": "2026-10-10",
+  "deployedCommit": "1228345",
+  "deploymentId": "dpl_EvY9vmhFeafJRBKePGU3bS7AjbbN",
+  "surfaces": {
+    "learner": "https://code2career-pathfinder.vercel.app/app",
+    "admin": "https://code2career-admin.vercel.app/admin",
+    "organization": "https://code2career-organization.vercel.app/org"
+  },
+  "checks": {
+    "managedClerkDevelopmentSignIn": "passed",
+    "hostedPostgresPersistence": "passed",
+    "manualRoadmapCreateReadMark": "passed",
+    "ownershipRoleOriginDenial": "passed",
+    "teacherReviewAssignmentReadback": "passed",
+    "diagnosticScoringPersistence": "passed",
+    "smallHostedClassroomFlow": "passed",
+    "teacherWrongSurfaceRedirect": "passed",
+    "learnerTeacherPages": "passed",
+    "openRouterDirectGraphAndSdkReplay": "passed",
+    "hostedAiRoadmap": "failed_502",
+    "localTests": 22,
+    "typecheck": "passed",
+    "build": "passed"
+  },
+  "unverifiedOrBlocked": [
+    "hosted_ai_advice_and_discussion",
+    "fresh_operator_password_reset",
+    "github_auto_build_owner_access",
+    "owned_domain_production_identity",
+    "browser_mobile_speech",
+    "hosted_50_player_load_fairness_turnover",
+    "enterprise_restore_incident_drills",
+    "competition_eligibility_and_final_ppt"
+  ]
+}
