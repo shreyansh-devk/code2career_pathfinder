@@ -431,8 +431,10 @@ All new modules preserve saved roadmap read/edit/review flows. Flags stop new wo
 
 ## Hosted checkpoint, 10 October 2026
 
-Source is now published and three Vercel demo domains are live with real managed Neon PostgreSQL and Clerk development identity. Hosted saved roadmap, organization/teacher, diagnostic and classroom backend flows were exercised. See progress.md for exact evidence and remaining checks. Current hosted AI generation is failing despite a valid direct OpenRouter response; it remains the first repair priority. Existing valid roadmaps remain readable and editable during this investigation.
+Source is now published and three Vercel demo domains are live with real managed Neon PostgreSQL and Clerk development identity. Hosted saved roadmap, organization/teacher, diagnostic and classroom backend flows were exercised. See progress.md for exact evidence and remaining checks. Hosted AI generation was subsequently repaired after diagnosing disconnected milestones; a real saved graph, readback and milestone guidance now pass. See progress.md for exact acceptance. Existing valid roadmaps remain readable and editable during this investigation.
 
 The user-selected OpenRouter free model takes priority over the original CodeCraft provider. No automatic paid fallback was added. Repository-owner Vercel GitHub App access is still needed for automatic builds. A purchased/owned domain and production Clerk setup, browser/speech checks, hosted load/restore drills and the rest of R7/R8 remain required. Three live dashboards do not establish enterprise readiness.
 
 The observed hosted graph failure is a disconnected milestone. Current repair adds explicit dependency construction and one quota-charged model correction; it does not replace AI output with a fixed roadmap or accept invalid graphs. Hosted success is recorded only after a created plan is read back and validated.
+
+Live generation acceptance now covers two exact targets with different relevant projects and roles, saved graphs, owner readback, real milestone guidance and a known-mark effort update. This completes the repair of the observed hosted generation failure, while browser and R7/R8 operating acceptance remain explicit gates.

@@ -4,7 +4,7 @@ Last updated: 10 October 2026. Primary brief: Statement 1. Product plan: [plan.m
 
 ## Current verified state
 
-Application source is published on GitHub and three Vercel domains are live. Managed Neon PostgreSQL and a managed Clerk development instance are connected to the deployment. Real authenticated HTTP checks passed for saved roadmap and preparation workflows. Hosted AI roadmap generation currently returns 502; it is not accepted as working. The user owns all browser testing.
+Application source is published on GitHub and three Vercel domains are live. Managed Neon PostgreSQL and a managed Clerk development instance are connected to the deployment. Real authenticated HTTP checks passed for saved roadmap and preparation workflows. Hosted AI generation was repaired after production diagnostics identified disconnected milestones. A real AI roadmap, readback and milestone guidance now pass live HTTP checks; a second exact-role check passed under the primary evaluation learner. The user owns all browser testing.
 
 | Item | State | Evidence or limitation |
 | --- | --- | --- |
@@ -20,15 +20,15 @@ Application source is published on GitHub and three Vercel domains are live. Man
 | Classroom flow | Live verified backend | Set/room/join/start and scoring passed, answers hidden before reveal, manual stop 200; cross-organization join denied 404; answer after close denied 409 |
 | 50-player concurrency | Verified locally only | 50/50 accepted with duplicate/late denial and final standings; hosted load/fairness/turnover not tested |
 | AI roadmap, guidance and discussions | Verified locally with original provider | Real local role-specific graphs, milestone guidance, panel and exact-quote feedback passed; this is not proof of current hosted AI operation |
-| Selected OpenRouter free model | Direct request verified; hosted failing | Exact SDK request returned 200 directly and passed schema/career-graph validation and SDK replay; two hosted requests returned 502; diagnostic release now records safe metadata |
+| Selected OpenRouter free model | Live generation and guidance verified | Hosted 201 in 48.196 s saved 16 milestones (12 skills, 2 projects, 2 roles); schema/career validator and owner readback passed; milestone guidance 200 in 11.079 s and persisted in readback |
 | Workspace restriction fix | Live verified backend | Teacher on learner `/app` receives 307 to organization `/org`; learner and teacher authorized pages return 200 with no restricted/error screen |
 | Operator fresh sign-in | Open issue | Stored password verified by Clerk backend, but normal fresh sign-in reports password reset required; existing browser session was retained |
-| Code checks | Passed | Typecheck, build and 22 tests passed for diagnostic release; prior client secret scan found zero supplied AI keys |
+| Code checks | Passed | Typecheck, build and 25 tests passed for graph-repair release; prior client secret scan found zero supplied AI keys |
 | GitHub automatic builds | Blocked by repository-owner access | Collaborator has push permission, no admin/owner access; Vercel GitHub App and project Git connection remain pending |
 | Browser, speech, mobile and accessibility | User-owned, pending | No browser launched following instruction; no visual/speech pass claimed |
 | Enterprise operations and final presentation | Pending | Owned-domain production identity, SSO/SCIM, retention, restore/failover, hosted workload and final PPT remain open |
 
-Backend evidence does not certify browser behavior, enterprise readiness or hackathon eligibility. Current application code checkpoint: `1228345`, deployed as `dpl_EvY9vmhFeafJRBKePGU3bS7AjbbN` (READY). The previous routing release is `b47555d`. Deployment rollback does not undo database writes.
+Backend evidence does not certify browser behavior, enterprise readiness or hackathon eligibility. Current application code checkpoint: `2bd72b8`; deployed source/docs checkpoint `1f5b65a` as `dpl_A3PjndkyNeJNzZ1hM1U4z7xmNtft` (READY), including the hosted 20-request daily allowance. The previous routing release is `b47555d`. Deployment rollback does not undo database writes.
 
 ## Status convention
 
@@ -46,8 +46,8 @@ Use unchecked boxes until acceptance passes. Do not label a release complete fro
 
 | Release | Scope | State | Dependency | Accepted evidence |
 | --- | --- | --- | --- | --- |
-| R0 | Real integration and environment readiness | Hosted identity/database verified; AI blocked | Hosted AI, production identity and environment isolation | Real Clerk sign-in, Neon writes and direct OpenRouter response |
-| R1 | Full Statement 1 core | Local AI/backend verified; hosted generation blocked | Hosted AI repair and user browser review | Two local AI goals/advice; hosted manual persistence and ownership/conflicts |
+| R0 | Real integration and environment readiness | Hosted demo integrations verified | Owned-domain production identity and environment isolation | Real Clerk sign-in, Neon writes and hosted OpenRouter generation |
+| R1 | Full Statement 1 core | Local/hosted backend verified; UI pending | User browser/mobile review | Two distinct hosted AI goals/guidance, persisted readback and known-mark effort change |
 | R2 | Roadmap personalization and depth | Partially implemented | Alternative-path/source depth and UI acceptance | Constraints, edit/revision/restore, share/revoke and exports |
 | R3 | Three functional surfaces | Hosted backend verified subset | Owner/support lifecycle, fresh operator login and browser review | Hosted scoped reviews, assignments, operator controls and tenant denial |
 | R4 | Solo preparation and evidence loop | Hosted backend verified subset | Role-specific interview depth and UI acceptance | Hosted diagnostic start/submit, saved attempt and teacher assignment |
@@ -215,7 +215,7 @@ A burst of repeated development rebuilds was observed in the older test-server l
 
 ## Next executable step
 
-Repair hosted AI generation from observed diagnostics. The user can demonstrate saved roadmap, teacher and preparation workflows now. Repository owner must connect Vercel for automatic builds. Resolve operator password reset without disrupting the active demo session, then complete browser and operating acceptance. Existing user authorization covers publication and deployment; paid upgrades remain disabled. Competition timing still needs organizer confirmation.
+Finish the user-owned browser review. The user can demonstrate saved AI/manual roadmap, teacher and preparation workflows now. Repository owner must connect Vercel for automatic builds. Resolve operator password reset without disrupting the active demo session, then complete browser and operating acceptance. Existing user authorization covers publication and deployment; paid upgrades remain disabled. Competition timing still needs organizer confirmation.
 
 
 ## Durable application checkpoint
@@ -237,3 +237,15 @@ Remaining acceptance: hosted AI generation/advice/discussions, fresh operator lo
 ## Career graph repair candidate
 
 Safe hosted diagnostics confirmed `invalid_graph_disconnected_milestone`: the model returned skills/projects that did not reach any role. Added explicit topological/terminal-node instructions and one bounded model repair with strict validation, shared cancellation/deadline and an additional quota charge. Provider and schema failures are not retried. Twenty-five tests, typecheck and build passed; published/deployed code `2bd72b8` as `dpl_2Uvv7M5sYcufipuxnewNNtLMaxYU` (READY). Live generation is under verification. The primary demo learner reached 10 consumed requests during failures/verification; a bounded free-model demo allowance of 20 is being configured, without resetting the usage ledger.
+
+## Live AI repair acceptance
+
+The repaired release created a real backend-engineering roadmap through OpenRouter on the canonical learner domain, returning 201 in 48.196 seconds. It contains 16 milestones: 12 skills, 2 concrete projects and 2 roles. Both the create response and a separate authenticated owner read returned a graph that passes the full career validator, with origin `ai`. Milestone guidance returned 200 in 11.079 seconds: 3 actions, 3 assessment questions and 4 project acceptance criteria; a further roadmap read confirmed it was saved. Marking the first ready skill known returned version 2, reducing remaining effort from 204 to 189 hours. It did not immediately unlock another node in this graph; other prerequisites still apply.
+
+The demo learner’s quota was observed at 10 consumed requests. Set production AI_DAILY_LIMIT to 20 and redeployed without resetting usage. Canonical learner `/api/me` returned limit 20 and used 10. The selected model remains free; no paid fallback was enabled. A second goal is being verified under the primary evaluation learner.
+
+## Second live exact-role acceptance
+
+The primary evaluation learner created a UX research roadmap for accessible education platforms through the real hosted OpenRouter pipeline: HTTP 201 in 22.938 s, 12 milestones (8 skills, 2 projects, 2 roles). A separate owner GET returned 200 and passed full schema/career-graph validation. The learner workspace also returned the new `ai` roadmap, retaining its existing manual plan/evidence/assignments. Project and role titles were inspected against both exact targets: backend API engineering/reliability and accessibility UX research produced different, relevant projects and intermediate/target roles. First-milestone advice returned 200 in 13.962 s.
+
+Current source/docs deployment remains `1f5b65a`; the subsequent documentation publication records these results without changing application code. Provider availability is not guaranteed by these two successful checks. No browser, speech or enterprise operating pass is inferred.

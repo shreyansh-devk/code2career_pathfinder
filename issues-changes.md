@@ -9,7 +9,7 @@ This log distinguishes observed failures and missing information from anticipate
 | ID | Type | Priority | State | Affects | Finding and next action |
 | --- | --- | --- | --- | --- | --- |
 | ISS-001 | Timing/eligibility uncertainty | P0 for competition claims | Open | Original submission | Source says Fri 9 Oct 10:00 am final freeze; session date is 10 Oct 2026. Year/timezone and current organizer policy need confirmation. Do not claim post-freeze work was eligible or backdate commits |
-| ISS-002 | Hosted AI failure | P0 for live Statement 1 | Open | Roadmap generation/advice/discussions | Original CodeCraft works locally but hosted requests returned 403. User-selected OpenRouter free model returns valid direct output, but hosted roadmap requests returned 502. Safe failure diagnostics deployed; no hosted success claimed |
+| ISS-002 | Hosted AI failure | P1 for broader acceptance | Roadmap/guidance resolved; discussions pending | AI workflows | Diagnostics confirmed disconnected generated milestones. Tightened dependency instructions and one quota-charged repair. Live 16-node graph create/readback and milestone guidance passed; no hosted discussion/voice success claimed |
 | ISS-003 | Observed tooling failure | P1 | Resolved provisioning; CLI limitation retained | Integrations | CLI fetch failed; verified official API fallback provisioned dedicated Neon/Clerk resources and connected them. Global CLI 58.4 remains outdated, temporary 63.1.2 available; upgrade recommended |
 | ISS-004 | Source omission | P1 for submission | Open | Repository and Round 1 | “Deadline above” and Round 1 snapshot timestamp are not provided in this DOCX. Obtain current organizer schedule; do not invent times from the README’s “next 16 hours” wording |
 | ISS-005 | Planning assumption | P1 | Open | Release estimates | Team size, actual remaining build window, target institutional scale and budget unknown. Re-estimate after R0; do not promise all releases in a hackathon day |
@@ -22,7 +22,7 @@ This log distinguishes observed failures and missing information from anticipate
 | ISS-013 | Fresh operator login | P1 | Open | Admin demonstration | Clerk verifies stored password but normal sign-in requests password reset; preserve existing demo session and resolve reset afterward |
 | ISS-014 | Workspace routing loop | P0 for demo | Resolved | Three surfaces | Role was checked after domain routing, and restricted page linked back to wrong workspace. Root and protected page now choose role domain; hosted teacher redirect 307 and authorized pages 200 passed |
 
-ISS-001 and ISS-004 do not block producing or using the product plan. They block an honest claim that newly produced work meets the original competition schedule. ISS-002 remains open for hosted AI. ISS-003 no longer blocks provisioning; its failed CLI history is retained below.
+ISS-001 and ISS-004 do not block producing or using the product plan. They block an honest claim that newly produced work meets the original competition schedule. ISS-002 is resolved for hosted roadmap/guidance; hosted discussion acceptance remains open. ISS-003 no longer blocks provisioning; its failed CLI history is retained below.
 
 ### Observed failure evidence
 
@@ -157,3 +157,11 @@ Added production AI diagnostics limited to error names/codes, HTTP status, finis
 ### CHG-015 on 10 October 2026
 
 The hosted failure was confirmed from redacted production diagnostics and audit as disconnected milestones, not invalid credentials. Tightened the dependency prompt and added one semantic graph repair, with no validation bypass, unchanged total timeout, quota charge and no further retries. New tests cover successful first output, repaired connectivity, second invalid output and quota denial. One initial test removed an independent role, which the existing validator permits; corrected the fixture to disconnect a project and all 25 tests passed. Published/deployed `2bd72b8`; live generation still requires actual HTTP verification.
+
+### CHG-016 on 10 October 2026
+
+Live repaired generation returned 201 in 48.196 s and saved 16 validated AI milestones; separate owner readback returned 200 and passed the same validator. Milestone guidance returned 200 in 11.079 s and persisted. Known-skill update returned version 2 and reduced effort from 204 to 189 hours. Quota remained enforced; production demo allowance increased from 10 to 20 after failures/tests consumed the primary learner’s slots, with no usage reset or paid fallback. Environment update returned 201, deployment `1f5b65a` READY, canonical `/api/me` confirmed limit 20. Second exact-role and primary-demo roadmap checks are in progress.
+
+### CHG-017 on 10 October 2026
+
+A second hosted exact-role input, accessibility UX research, saved a validated 12-node AI graph under the primary evaluation learner (201, 22.938 s). Separate owner read and workspace list returned 200 with the saved AI plan. Its first milestone guidance returned 200 (13.962 s). Inspected both generated graphs for distinct relevant projects and intermediate/target roles; this acceptance resolves the original hosted roadmap generation failure. Browser/speech acceptance, fresh operator reset and enterprise operations remain separate open items. Final verification is published in tests/reports/deployment-live.json.

@@ -1,7 +1,7 @@
 {
   "verifiedAt": "2026-10-10",
-  "deployedCommit": "1228345",
-  "deploymentId": "dpl_EvY9vmhFeafJRBKePGU3bS7AjbbN",
+  "deployedCommit": "1f5b65a",
+  "deploymentId": "dpl_A3PjndkyNeJNzZ1hM1U4z7xmNtft",
   "surfaces": {
     "learner": "https://code2career-pathfinder.vercel.app/app",
     "admin": "https://code2career-admin.vercel.app/admin",
@@ -18,13 +18,23 @@
     "teacherWrongSurfaceRedirect": "passed",
     "learnerTeacherPages": "passed",
     "openRouterDirectGraphAndSdkReplay": "passed",
-    "hostedAiRoadmap": "failed_502",
-    "localTests": 22,
+    "hostedAiRoadmap": "passed",
+    "localTests": 25,
     "typecheck": "passed",
-    "build": "passed"
+    "build": "passed",
+    "hostedAiOwnerReadback": "passed",
+    "hostedAiMilestoneGuidanceAndPersistence": "passed",
+    "hostedAiKnownMarkEffortChange": "passed",
+    "hostedDemoQuota": {
+      "usedAtVerification": 10,
+      "limit": 20
+    },
+    "twoDistinctHostedAiGoals": "passed",
+    "primaryEvaluationLearnerAiRoadmapAndWorkspace": "passed",
+    "primaryEvaluationLearnerAiGuidance": "passed"
   },
   "unverifiedOrBlocked": [
-    "hosted_ai_advice_and_discussion",
+    "hosted_ai_discussion",
     "fresh_operator_password_reset",
     "github_auto_build_owner_access",
     "owned_domain_production_identity",
@@ -32,5 +42,37 @@
     "hosted_50_player_load_fairness_turnover",
     "enterprise_restore_incident_drills",
     "competition_eligibility_and_final_ppt"
-  ]
+  ],
+  "applicationCodeCommit": "2bd72b8",
+  "aiMeasurements": {
+    "firstGoal": {
+      "milestones": 16,
+      "skills": 12,
+      "projects": 2,
+      "roles": 2,
+      "createHttpStatus": 201,
+      "createSeconds": 48.19575,
+      "readbackHttpStatus": 200,
+      "guidanceHttpStatus": 200,
+      "guidanceSeconds": 11.079474
+    },
+    "knownMark": {
+      "httpStatus": 200,
+      "remainingHoursBefore": 204,
+      "remainingHoursAfter": 189,
+      "newlyReady": 0
+    },
+    "secondGoal": {
+      "milestones": 12,
+      "skills": 8,
+      "projects": 2,
+      "roles": 2,
+      "createHttpStatus": 201,
+      "createSeconds": 22.937768,
+      "readbackHttpStatus": 200,
+      "workspaceHttpStatus": 200,
+      "guidanceHttpStatus": 200,
+      "guidanceSeconds": 13.962105
+    }
+  }
 }
