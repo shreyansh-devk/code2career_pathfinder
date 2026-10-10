@@ -438,3 +438,10 @@ The user-selected OpenRouter free model takes priority over the original CodeCra
 The observed hosted graph failure is a disconnected milestone. Current repair adds explicit dependency construction and one quota-charged model correction; it does not replace AI output with a fixed roadmap or accept invalid graphs. Hosted success is recorded only after a created plan is read back and validated.
 
 Live generation acceptance now covers two exact targets with different relevant projects and roles, saved graphs, owner readback, real milestone guidance and a known-mark effort update. This completes the repair of the observed hosted generation failure, while browser and R7/R8 operating acceptance remain explicit gates.
+
+
+## Local personal-practice extension, 10 October 2026
+
+The accepted extension follows a saved roadmap: choose the whole plan, a phase or a specific milestone, generate a frozen private quiz, save an attempt, submit answers, review topic results and practise weak areas. Reasoning uses the same workflow with selected quantitative/logical/verbal topics. Multiple-choice grading uses the saved key; written grading uses the saved rubric and exact submitted-answer evidence. Retakes reuse saved questions without a generation request. New weak-topic practice requests fresh questions.
+
+This remains Statement 1 support, not a new primary track. Three additive private tables hold quizzes, attempts and revision notes. Operator release controls can pause new personal quizzes without removing saved work. Results never mark roadmap progress automatically. The learner dashboard uses actual roadmap, evidence, assignment and practice data; colour separates next action, practice and recorded progress. No push or deployment is authorized for this local update. Browser interaction and visual review remain user-owned.

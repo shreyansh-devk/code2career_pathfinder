@@ -14,7 +14,7 @@ Each slice must run independently. Missing AI credentials produce an explicit un
 
 ## Interface direction
 
-Students and teachers use laptops and phones in bright classrooms, often while switching between notes and project work. Use a light, restrained workspace with a white background, readable neutral text and a green primary action. Prioritize the plan canvas and next action over marketing panels.
+Students and teachers use laptops and phones in bright classrooms, often while switching between notes and project work. Use a light, restrained workspace with a white background, readable neutral text and a green primary action. Prioritize the plan canvas and next action over marketing panels. The learner home uses a forest-green next-milestone area, muted violet practice and pale blue recorded progress. Colours indicate purpose; counts come from saved activity.
 
 Use one system sans-serif family, fixed readable type sizes, restrained borders, compact tables on desktop and stacked rows on phones. The main graph supports pan, zoom, keyboard selection and an equivalent accessible list. Every asynchronous action has loading, empty, error and recovery states. Motion is limited to short feedback and respects reduced-motion settings.
 

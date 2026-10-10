@@ -148,3 +148,8 @@ Retention periods, scoring constants, node caps, percentage time allocations, ru
 Before a competition submission, check H-01–H-19 and PS1-01–PS1-07 against actual evidence, reconcile ISS-001/ISS-004, and inspect the required README. Include only working extensions under “Done”; list unfinished ones under “Left / Plan.” Before enabling AptiQuiz or GD, pass the corresponding imported module gate. Before calling the product enterprise-ready, pass R8’s operating and institution checks.
 
 Current status: source constraints documented; application publication and hosted backend evidence are recorded in progress.md. Browser/mobile/speech acceptance, final PPT, operating gates and competition eligibility remain unverified. No competition submission is claimed.
+
+
+## Personal quiz engineering decisions, local extension
+
+The user's accepted practice extension uses private frozen question/rubric snapshots and separate versioned attempts. AI-generated questions and feedback must be labelled, offer a way to flag errors, and never certify readiness or automatically complete a roadmap. Selected skill descriptions and submitted written answers go to the configured AI provider, with a notice at generation. Timed submissions use the database deadline and retain only drafts saved before expiry. Saved results remain readable when new activity is paused. These are product decisions, not additional organizer rules. This update stays local under the user's no-push instruction; browser review remains user-run.

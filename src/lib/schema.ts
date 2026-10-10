@@ -88,4 +88,23 @@ CREATE TABLE IF NOT EXISTS discussions (
 );
 CREATE INDEX IF NOT EXISTS discussions_learner ON discussions(learner_id);
 INSERT INTO feature_flags(key,enabled) VALUES('discussion_practice',true) ON CONFLICT DO NOTHING;
+CREATE TABLE IF NOT EXISTS self_quizzes (
+  id TEXT PRIMARY KEY,learner_id TEXT NOT NULL REFERENCES app_users(id),roadmap_id TEXT REFERENCES roadmaps(id),
+  roadmap_version INTEGER,mode TEXT NOT NULL,title TEXT NOT NULL,instructions TEXT NOT NULL,
+  settings JSONB NOT NULL,scope JSONB NOT NULL,questions JSONB NOT NULL,created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE TABLE IF NOT EXISTS self_quiz_attempts (
+  id TEXT PRIMARY KEY,quiz_id TEXT NOT NULL REFERENCES self_quizzes(id),learner_id TEXT NOT NULL REFERENCES app_users(id),
+  status TEXT NOT NULL DEFAULT 'started',version INTEGER NOT NULL DEFAULT 1,answers JSONB NOT NULL DEFAULT '{}',result JSONB,
+  started_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),deadline TIMESTAMPTZ,submitted_at TIMESTAMPTZ,expired BOOLEAN NOT NULL DEFAULT FALSE,
+  lease_id TEXT,lease_expires_at TIMESTAMPTZ
+);
+CREATE TABLE IF NOT EXISTS self_quiz_notes (
+  learner_id TEXT NOT NULL REFERENCES app_users(id),quiz_id TEXT NOT NULL REFERENCES self_quizzes(id),question_id TEXT NOT NULL,
+  note TEXT NOT NULL DEFAULT '',reviewed BOOLEAN NOT NULL DEFAULT FALSE,flag_reason TEXT NOT NULL DEFAULT '',
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),PRIMARY KEY(learner_id,quiz_id,question_id)
+);
+CREATE INDEX IF NOT EXISTS self_quizzes_learner ON self_quizzes(learner_id,created_at DESC);
+CREATE INDEX IF NOT EXISTS self_attempts_learner ON self_quiz_attempts(learner_id,started_at DESC);
+INSERT INTO feature_flags(key,enabled) VALUES('personal_quizzes',true) ON CONFLICT DO NOTHING;
 `;

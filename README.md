@@ -24,6 +24,12 @@ New sign-ups default to learners. Teacher access requires operator assignment. E
 
 [Why we exist](#why-we-exist) · [Who we serve](#who-we-serve) · [The experience](#the-experience) · [Progress](#done-left-and-the-next-16-hours) · [Architecture](#architecture-and-why) · [Run locally](#run-locally)
 
+## Personal practice quizzes
+
+The learner home includes upcoming milestones, progress and personal practice. Open [My practice quizzes](https://code2career-pathfinder.vercel.app/app/quizzes) after signing in. For local development, run `npm run dev` and open http://127.0.0.1:3300/app.
+
+Learners can generate quizzes from a whole roadmap, a phase or a milestone, or choose quantitative, logical and verbal reasoning. Choose 5 or 10 questions, difficulty, multiple-choice or written answers, and optional timing. Drafts and attempts are saved; results include topic scores, explanations, rubric feedback, retakes, weak-topic practice and mistake-notebook notes. AI-generated material is disclosed and can be flagged. Quiz scores do not complete roadmap milestones or certify readiness.
+
 ## Why we exist
 
 Choosing a career does not tell a student which skills to learn first, what to build, or how to fit the work around college and other commitments. Courses, practice tools, and career advice often leave the learner to assemble that path themselves.

@@ -1,0 +1,76 @@
+{
+  "verifiedOn": "2026-10-10",
+  "scope": "local only, unpublished",
+  "origin": "http://127.0.0.1:3300",
+  "commands": {
+    "check": "passed",
+    "test": {
+      "passed": 33,
+      "failed": 0
+    },
+    "build": "passed"
+  },
+  "realProvider": {
+    "reasoningGeneration": {
+      "http": 200,
+      "questions": 5,
+      "topics": [
+        "quantitative",
+        "logical",
+        "verbal"
+      ],
+      "answerKeyHidden": true
+    },
+    "roadmapGeneration": {
+      "http": 200,
+      "questions": 5,
+      "format": "written",
+      "scopeFrozen": true
+    },
+    "writtenFeedback": {
+      "http": 200,
+      "earned": 10,
+      "possible": 25,
+      "answered": 2,
+      "total": 5,
+      "exactQuotesChecked": true,
+      "unansweredZero": true,
+      "cachedWithoutExtraQuota": true
+    }
+  },
+  "http": {
+    "home": 200,
+    "quizPage": 200,
+    "workspace": 200,
+    "unauthenticated": 401,
+    "foreignQuiz": 404,
+    "foreignAttempt": 404,
+    "operatorPrivateQuiz": 403,
+    "staleDraft": 409,
+    "draftSave": 200,
+    "choiceSubmission": 200,
+    "revisionNote": 200
+  },
+  "invariants": [
+    "No automatic roadmap marks",
+    "Frozen questions/results after source roadmap edit",
+    "Only pre-deadline saved drafts counted on expiry",
+    "Failed written feedback preserves submitted answers and releases lease",
+    "Duplicate submit returns stored result",
+    "Internal grader lease and owner fields absent from attempt response"
+  ],
+  "ui": {
+    "serverRendering": "empty, active and completed dashboard; eleven learner navigation links; initial quiz page; staff navigation preserved",
+    "colourContrast": {
+      "focusBody": 10.18,
+      "focusSmall": 7.97,
+      "practice": 7.98,
+      "progress": 9.4,
+      "coralBadge": 7.36
+    },
+    "browserRun": false,
+    "visualMobileKeyboardReview": "user-run, not claimed verified"
+  },
+  "cleanup": "Removed only verification quizzes, attempts, notes and their manual source roadmap. Preserved other learner data and AI quota usage.",
+  "deploymentChanged": false
+}

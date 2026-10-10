@@ -165,3 +165,22 @@ Live repaired generation returned 201 in 48.196 s and saved 16 validated AI mile
 ### CHG-017 on 10 October 2026
 
 A second hosted exact-role input, accessibility UX research, saved a validated 12-node AI graph under the primary evaluation learner (201, 22.938 s). Separate owner read and workspace list returned 200 with the saved AI plan. Its first milestone guidance returned 200 (13.962 s). Inspected both generated graphs for distinct relevant projects and intermediate/target roles; this acceptance resolves the original hosted roadmap generation failure. Browser/speech acceptance, fresh operator reset and enterprise operations remain separate open items. Final verification is published in tests/reports/deployment-live.json.
+
+### CHG-018 on 10 October 2026, local only
+
+Simplified learner navigation, home-page next actions, roadmap intake steps, prerequisite explanations and saved-work terminology in response to the user's urgent usability request. The home resume link selects a ready non-role milestone from an unfinished saved roadmap, and assignment panels now explain empty/completed states. Added grouped desktop/mobile navigation, breadcrumbs, actual saved-goal/time/progress summaries, a clear graph/list helper and a focusable milestone-detail anchor. Manual/AI creation retains the existing modes and server validation; busy/error states explain the next action without losing typed input. Added a detailed, source-based backend walkthrough.
+
+Typecheck, 25 unit tests, final production build and non-browser navigation/form rendering passed. Actual local HTTP verification was blocked by curl exit 7 in the sandbox; browser review remains user-owned. No browser was run and no permission/ownership rule was weakened. The user explicitly requested no push; all changes remain uncommitted and unpublished. Live deployment evidence is unchanged.
+
+### CHG-019 on 10 October 2026, local refresh loop
+
+Observed 10,861 empty-module HMR events and 28,627 sign-in requests in the old development trace. Another application also held port 3000 on IPv6, so `localhost` could reach that application while Pathfinder listened on IPv4. Stopped the identified Pathfinder session and moved it to Webpack development mode on explicit IPv4 port 3300. Real local login, updated learner home/intake, identity/workspace reads and twenty repeated page requests returned 200; the user confirmed the new setup works. A raw curl socket probe returned exit 28 without frames and is not treated as browser protocol proof. The internal Turbopack trigger is not established.
+
+Persisted the working development command in package.json and README without changing production bundling or authentication/database guards. No database migration, browser automation, push or deployment was performed.
+
+
+### CHG-020 on 10 October 2026, local personal practice and dashboard
+
+Added private roadmap/reasoning quiz generation, frozen keys/rubrics, timed/untimed versioned drafts, deterministic multiple-choice scoring, leased AI written feedback, saved topic analysis, retakes and weak-topic generation. Extended the notebook with mistakes, notes and flags. Added an operator pause control preserving saved reads/submission, milestone practice links and actual practice history. Reworked the home with purposeful green/violet/blue colour, a clear next task, ordered upcoming work and recorded progress.
+
+Final typecheck, 33 tests and build passed. Real generation passed in both modes; real written feedback awarded 10/25 points with exact learner quotes and zero for unanswered questions. Replay, ownership, stale draft, frozen quiz after roadmap edit and no automatic milestone completion checks passed. Server rendering and colour contrast passed. Temporary verification records were removed without changing other learner work. Evidence: `tests/reports/local-personal-practice.json`. Browser/mobile/keyboard review remains user-run. No browser, push or deployment occurred; the hosted release and its report remain unchanged.

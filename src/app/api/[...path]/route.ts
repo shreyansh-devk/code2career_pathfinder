@@ -11,6 +11,7 @@ import { aiReady, aiRequestLimit, generateAdvice, generateRoadmap } from '@/lib/
 import { questions, scoreAnswers } from '@/lib/questions';
 import {quizGet,quizPost} from '@/lib/quiz';
 import {discussionGet,discussionPost} from '@/lib/discussion';
+import {selfQuizGet,selfQuizPost,practiceOverview,personalNotebook} from '@/lib/self-quizzes';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -31,11 +32,13 @@ export async function GET(request: Request, context: Context) {
     const user = await requireUser(), db = await getDb();
     if(path[0]==='quiz')return json(await quizGet(user,path));
     if(path[0]==='discussions')return json(await discussionGet(user,path));
+    if(path[0]==='self-quizzes')return json(await selfQuizGet(user,path));
     if (path.join('/') === 'me') {const quota=(await db.query<{count:number;resets_at:string}>('SELECT count,resets_at FROM quotas WHERE key=$1 AND resets_at>NOW()',[`ai:${user.id}`])).rows[0];return json({ user, local: localMode() && !clerkReady(), aiReady: aiReady(), aiQuota:{used:quota?.count||0,limit:aiRequestLimit(),resetsAt:quota?.resets_at||null},flags: (await db.query('SELECT * FROM feature_flags ORDER BY key')).rows });}
     if (path.join('/') === 'workspace') return json({
       roadmaps: await listRoadmaps(user), evidence: await getEvidence(user),
       assignments: (await db.query<Assignment>('SELECT * FROM assignments WHERE learner_id=$1 ORDER BY due_date LIMIT 100',[user.id])).rows,
       attempts: (await db.query('SELECT id,started_at,result FROM practice_attempts WHERE learner_id=$1 AND result IS NOT NULL ORDER BY started_at DESC LIMIT 20',[user.id])).rows,
+      personalPractice:await practiceOverview(user),
     });
     if (path.length === 2 && path[0] === 'roadmaps') {
       const map = await ownedRoadmap(user,path[1]);
@@ -45,7 +48,7 @@ export async function GET(request: Request, context: Context) {
     if (path.join('/') === 'organization') return json(await organizationOverview(user));
     if (path.join('/') === 'notebook') {
       const entries=(await db.query<{ question_id:string;note:string;reviewed:boolean }>('SELECT question_id,note,reviewed FROM error_notebook WHERE learner_id=$1 ORDER BY updated_at DESC',[user.id])).rows;
-      return json({ entries:entries.map(e=>({ ...e,question:questions.find(q=>q.id===e.question_id) })) });
+      return json({ entries:entries.map(e=>({ ...e,question:questions.find(q=>q.id===e.question_id) })),personalEntries:await personalNotebook(user) });
     }
     if (path.join('/') === 'admin/directory') {
       requireRole(user,['admin']);
@@ -89,6 +92,7 @@ export async function POST(request: Request, context: Context) {
     const user = await requireUser(), db = await getDb();
     if(path[0]==='quiz')return json(await quizPost(user,path,input));
     if(path[0]==='discussions')return json(await discussionPost(user,path,input,request.signal));
+    if(path[0]==='self-quizzes')return json(await selfQuizPost(user,path,input,request.signal));
     if (path.join('/')==='profile') {
       const p=z.object({ name:z.string().trim().min(2).max(80) }).parse(input);
       await db.query('UPDATE app_users SET name=$1 WHERE id=$2',[p.name,user.id]);return json({ok:true});
@@ -190,7 +194,7 @@ export async function POST(request: Request, context: Context) {
     }
     if (path.join('/') === 'admin/flag') {
       requireRole(user,['admin']);
-      const p = z.object({ key:z.enum(['roadmap_generation','solo_practice','classroom_quiz','discussion_practice']),enabled:z.boolean() }).parse(input);
+      const p = z.object({ key:z.enum(['roadmap_generation','solo_practice','classroom_quiz','discussion_practice','personal_quizzes']),enabled:z.boolean() }).parse(input);
       await db.transaction(async tx => { await tx.query('UPDATE feature_flags SET enabled=$1 WHERE key=$2',[p.enabled,p.key]); await audit(tx,user.id,`flag.${p.key}.${p.enabled ? 'enabled' : 'disabled'}`); });
       return json({ ok:true });
     }

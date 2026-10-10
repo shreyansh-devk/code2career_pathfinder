@@ -7,7 +7,7 @@
     "node": "24.x"
   },
   "scripts": {
-    "dev": "next dev --hostname 127.0.0.1",
+    "dev": "next dev --webpack --hostname 127.0.0.1 --port 3300",
     "build": "next build",
     "start": "next start --hostname 127.0.0.1",
     "check": "tsc --noEmit",
